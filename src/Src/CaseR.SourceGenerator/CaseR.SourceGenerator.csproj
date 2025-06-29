@@ -12,11 +12,13 @@
     <PackageProjectUrl>https://github.com/harrison314/CaseR</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>notifications;comands;queries;Use Case;Interactor;patterns;</PackageTags>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,6 +9,8 @@
     <PackageProjectUrl>https://github.com/harrison314/CaseR</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>notifications;comands;queries;Use Case;Interactor;patterns;</PackageTags>
+    <DebugType>embedded</DebugType>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
@@ -16,6 +18,9 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[9.0,10.0)" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\README.md">
