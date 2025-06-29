@@ -9,8 +9,14 @@
     <PackageProjectUrl>https://github.com/harrison314/CaseR</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>notifications;comands;queries;Use Case;Interactor;patterns;</PackageTags>
+
+    <!--Source Link Settings-->
+    <!--<Deterministic>true</Deterministic>-->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>false</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <DebugType>embedded</DebugType>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">

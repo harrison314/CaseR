@@ -17,14 +17,3 @@ public class GetTodoItemInteractor : IUseCaseInteractor<int, Todo>
         return new Todo(request, "Do the laundry", DateOnly.FromDateTime(DateTime.Now.AddDays(1)));
     }
 }
-
-public record GetTodoItemInteractorEvent(int Id) : IDomainEvent;
-
-public class GetTodoItemInteractorEventHandler : IDomainEventHandler<GetTodoItemInteractorEvent>
-{
-    public ValueTask Handle(GetTodoItemInteractorEvent domainEvent, CancellationToken cancellationToken)
-    {
-        //...
-        return ValueTask.CompletedTask;
-    }
-}

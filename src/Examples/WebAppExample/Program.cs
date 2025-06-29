@@ -30,6 +30,14 @@ namespace WebAppExample
                 return todos;
             });
 
+            todosApi.MapGet("/{id}", async (int id, IUseCase<GetTodoItemInteractor> getTodoItemInteractor,
+                CancellationToken cancellationToken) =>
+            {
+                WebAppExample.Todo.UseCases.Todo todo = await getTodoItemInteractor.Execute(id, cancellationToken);
+                return todo;
+            });
+
+
             app.Run();
         }
     }

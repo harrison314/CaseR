@@ -12,7 +12,7 @@
     <PackageProjectUrl>https://github.com/harrison314/CaseR</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>notifications;comands;queries;Use Case;Interactor;patterns;</PackageTags>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!--<EmbedUntrackedSources>true</EmbedUntrackedSources>-->
   </PropertyGroup>
 
   <ItemGroup>

@@ -31,7 +31,8 @@ internal class KeyedUseCase3<TInteractor, TRequest, TResponse> : IUseCase<TInter
             for (int i = 0; i < array.Length; i++)
             {
                 UseCasePerformDelegate<TRequest, TResponse> currentNext = next;
-                next = async (req) => await array[i].InterceptExecution(this.useCase, req, currentNext, cancellationToken)
+                IUseCaseInterceptor<TRequest, TResponse> interceptor = array[i];
+                next = async (req) => await interceptor.InterceptExecution(this.useCase, req, currentNext, cancellationToken)
                     .ConfigureAwait(false);
             }
         }
@@ -40,7 +41,8 @@ internal class KeyedUseCase3<TInteractor, TRequest, TResponse> : IUseCase<TInter
             for (int i = 0; i < list.Count; i++)
             {
                 UseCasePerformDelegate<TRequest, TResponse> currentNext = next;
-                next = async (req) => await list[i].InterceptExecution(this.useCase, req, currentNext, cancellationToken)
+                IUseCaseInterceptor<TRequest, TResponse> interceptor = list[i];
+                next = async (req) => await interceptor.InterceptExecution(this.useCase, req, currentNext, cancellationToken)
                     .ConfigureAwait(false);
             }
         }
