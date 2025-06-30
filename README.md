@@ -63,7 +63,7 @@ public class GetTodoInteractor : IUseCaseInterceptor<GetTodoInteractorRequest, T
         
     }
 
-    public ValueTask<Todo[]> InterceptExecution(GetTodoInteractorRequest request, CancellationToken cancellationToken)
+    public ValueTask<Todo[]> Execute(GetTodoInteractorRequest request, CancellationToken cancellationToken)
     {
         Todo[] sampleTodos = new Todo[] 
         {
