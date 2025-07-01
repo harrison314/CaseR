@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{AA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppExample", "Examples\WebAppExample\WebAppExample.csproj", "{D8470235-64BF-486A-82E3-0AE53BA3B30A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BCC14F83-A19F-48EA-A2D3-F4179D1DCFBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaseR.Tests", "Tests\CaseR.Tests\CaseR.Tests.csproj", "{ABB4D507-C401-4DF9-B45C-360E1FF53761}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,10 @@ Global
 		{D8470235-64BF-486A-82E3-0AE53BA3B30A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8470235-64BF-486A-82E3-0AE53BA3B30A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8470235-64BF-486A-82E3-0AE53BA3B30A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABB4D507-C401-4DF9-B45C-360E1FF53761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB4D507-C401-4DF9-B45C-360E1FF53761}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB4D507-C401-4DF9-B45C-360E1FF53761}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB4D507-C401-4DF9-B45C-360E1FF53761}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,6 +53,7 @@ Global
 		{9EDF35B0-3233-5EB9-F2C8-0956E7083446} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{C40850A0-6109-CC9B-B295-B888E33B5CBE} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{D8470235-64BF-486A-82E3-0AE53BA3B30A} = {AAB9964A-B511-4B8F-A3C9-FB29B92B20EA}
+		{ABB4D507-C401-4DF9-B45C-360E1FF53761} = {BCC14F83-A19F-48EA-A2D3-F4179D1DCFBA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C50BB37-BD50-401D-BD2C-051C04E13AF4}

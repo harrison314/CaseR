@@ -18,8 +18,6 @@ internal static class CaseRRegistrationRenderer
 
         sb.Append($$$""""
 
-                using CaseR = global::CaseR;
-
                 namespace Microsoft.Extensions.DependencyInjection;
 
                 /// <summary>

@@ -22,8 +22,6 @@ namespace CaseR.SourceGenerator
             {
                 sb.AppendLine($"namespace {nsGroup.Key}");
                 sb.AppendLine("{");
-                sb.AppendLine("    using System = global::System;");
-                sb.AppendLine("    using CaseR = global::CaseR;");
                 sb.AppendLine();
 
                 RenderClasses(nsGroup, sb);
@@ -77,9 +75,9 @@ namespace CaseR.SourceGenerator
                      /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
                      /// <returns>Returns value task with result.</returns>
                      [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-                     public static System.Threading.Tasks.ValueTask<{{{GetFullTypeName(extensionMethodDef.TResultType)}}}> {{{methodName}}}(this CaseR.IUseCase<{{{GetFullTypeName(extensionMethodDef.ClassDefinition.Symbol)}}}> useCase, {{{GetFullTypeName(extensionMethodDef.TRequestType)}}} request, System.Threading.CancellationToken cancellationToken = default)
+                     public static System.Threading.Tasks.ValueTask<{{{GetFullTypeName(extensionMethodDef.TResultType)}}}> {{{methodName}}}(this global::CaseR.IUseCase<{{{GetFullTypeName(extensionMethodDef.ClassDefinition.Symbol)}}}> useCase, {{{GetFullTypeName(extensionMethodDef.TRequestType)}}} request, System.Threading.CancellationToken cancellationToken = default)
                      {
-                        return CaseR.UseCaseExtensions.Execute<{{{GetFullTypeName(extensionMethodDef.ClassDefinition.Symbol)}}}, {{{GetFullTypeName(extensionMethodDef.TRequestType)}}}, {{{GetFullTypeName(extensionMethodDef.TResultType)}}}>(useCase, request, cancellationToken);
+                        return global::CaseR.UseCaseExtensions.Execute<{{{GetFullTypeName(extensionMethodDef.ClassDefinition.Symbol)}}}, {{{GetFullTypeName(extensionMethodDef.TRequestType)}}}, {{{GetFullTypeName(extensionMethodDef.TResultType)}}}>(useCase, request, cancellationToken);
                      }
 
              """);
