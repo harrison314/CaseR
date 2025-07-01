@@ -9,13 +9,13 @@ internal class DomainHandlerImplDefinitions
         get;
     }
 
-    public ITypeSymbol TDomainEvent
+    public ITypeSymbol? TDomainEvent
     {
         get;
     }
 
     public DomainHandlerImplDefinitions(ProcessableClassDefinition classDefinition,
-       ITypeSymbol tDomainEvent)
+       ITypeSymbol? tDomainEvent)
     {
         this.ClassDefinition = classDefinition;
         this.TDomainEvent = tDomainEvent;

@@ -51,15 +51,44 @@ public class CaseRGenerator : IIncrementalGenerator
                 {
                     if (this.TypeIsInteractorInterface(usedInterface))
                     {
-                        useCaseDefinitions.Add(new UseCaseImplDefinitions(new ProcessableClassDefinition(symbol),
-                            usedInterface.TypeArguments[0],
-                            usedInterface.TypeArguments[1]));
+                        if (symbol.IsGenericType)
+                        {
+                            spc.ReportDiagnostic(
+                                Diagnostic.Create(
+                                    new DiagnosticDescriptor("CaseR001", "Invalid Use Case Interactor",
+                                        "Use Case Interactor must not be generic, but found: {0}",
+                                        "CaseR", DiagnosticSeverity.Error, true),
+                                    Location.Create(classSyntax.SyntaxTree, classSyntax.Span),
+                                    symbol.ToDisplayString()));
+                        }
+                        else
+                        {
+                            useCaseDefinitions.Add(new UseCaseImplDefinitions(new ProcessableClassDefinition(symbol),
+                                usedInterface.TypeArguments[0],
+                                usedInterface.TypeArguments[1]));
+                        }
                     }
 
                     if (this.TypeIsDomainEventHandlerInterface(usedInterface))
                     {
-                        domainEvenets.Add(new DomainHandlerImplDefinitions(new ProcessableClassDefinition(symbol),
-                            usedInterface.TypeArguments[0]));
+                        if (symbol.IsGenericType)
+                        {
+                            spc.ReportDiagnostic(
+                               Diagnostic.Create(
+                                   new DiagnosticDescriptor("CaseR002", "Domain event handler can not by generic.",
+                                       "Domain event handler can not by generic, but found: {0}",
+                                       "CaseR", DiagnosticSeverity.Warning, true),
+                                   Location.Create(classSyntax.SyntaxTree, classSyntax.Span),
+                                   symbol.ToDisplayString()));
+
+                            domainEvenets.Add(new DomainHandlerImplDefinitions(new ProcessableClassDefinition(symbol),
+                                null));
+                        }
+                        else
+                        {
+                            domainEvenets.Add(new DomainHandlerImplDefinitions(new ProcessableClassDefinition(symbol),
+                                usedInterface.TypeArguments[0]));
+                        }
                     }
                 }
             }

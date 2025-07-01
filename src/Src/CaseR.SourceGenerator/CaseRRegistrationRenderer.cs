@@ -54,11 +54,23 @@ internal static class CaseRRegistrationRenderer
 
         foreach (DomainHandlerImplDefinitions def in domainEvenest)
         {
-            string className = def.ClassDefinition.Symbol.ToString();
-            sb.Append($$$""""
+            if (def.TDomainEvent == null)
+            {
+                //TODO: after fix generic domain event handlers
+                string className = def.ClassDefinition.Symbol.ConstructUnboundGenericType().ToString();
+                sb.Append($$$""""
+                       // services.Add(new ServiceDescriptor(typeof(global::CaseR.IDomainEventHandler<>), typeof({{{className}}}), ServiceLifetime.Scoped));
+
+                """");
+            }
+            else
+            {
+                string className = def.ClassDefinition.Symbol.ToString();
+                sb.Append($$$""""
                         services.Add(new ServiceDescriptor(typeof(global::CaseR.IDomainEventHandler<{{{def.TDomainEvent}}}>), typeof({{{className}}}), ServiceLifetime.Scoped));
 
                 """");
+            }
         }
 
         sb.Append($$$""""

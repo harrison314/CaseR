@@ -112,6 +112,22 @@ public sealed class EventHandlersTests
     [Ignore]
     public async Task DomainEvents_GenericHandlerSourceGenerator_Success()
     {
-        throw new NotImplementedException("Implement generic handlers registration");
+        ServiceCollection serviceCollection = new ServiceCollection();
+
+        serviceCollection.AddCaseR();
+        serviceCollection.AddCaseRInteractors(typeof(RegistrationTests));
+        serviceCollection.AddScoped(typeof(IDomainEventHandler<FooEvent>), typeof(GenericEventHandler<FooEvent>));
+
+        CallAssertion callAssertion = new CallAssertion();
+        serviceCollection.AddSingleton(callAssertion);
+
+        ServiceProvider sp = serviceCollection.BuildServiceProvider(true);
+        await using AsyncServiceScope scope = sp.CreateAsyncScope();
+
+        IDomainEventPublisher publisher = scope.ServiceProvider.GetRequiredService<IDomainEventPublisher>();
+
+        await publisher.Publish(new FooEvent("FooEvent"));
+
+        callAssertion.AssertCall("FooEventHandler");
     }
 }
