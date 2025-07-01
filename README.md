@@ -164,13 +164,13 @@ Or use keyed piplines:
 builder.Services.AddKeyedCaseR("GrpcPipeline", options =>
   {
     options.AddGenericInterceptor(typeof(AnotherInterceptor<,>));
-    options.AddGenericInterceptor(typeof(nestedLogInterceptor<,>));
+    options.AddGenericInterceptor(typeof(NestedLogInterceptor<,>));
   });
 
 builder.Services.AddKeyedCaseR("MinimalApiPipeline", options =>
   {
     options.AddGenericInterceptor(typeof(AnotherInterceptor<,>));
-    options.AddGenericInterceptor(typeof(nestedLogInterceptor<,>));
+    options.AddGenericInterceptor(typeof(NestedLogInterceptor<,>));
   });
 ```
 
