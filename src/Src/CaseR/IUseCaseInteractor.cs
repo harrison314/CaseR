@@ -2,5 +2,5 @@
 
 public interface IUseCaseInteractor<in TRequest, TResponse> : IUseCaseInteractorBase
 {
-    ValueTask<TResponse> Execute(TRequest request, CancellationToken cancellationToken);
+    Task<TResponse> Execute(TRequest request, CancellationToken cancellationToken);
 }

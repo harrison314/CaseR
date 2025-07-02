@@ -5,12 +5,13 @@ namespace CaseR;
 public static class UseCaseExtensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ValueTask<TResponse> Execute<TInteractor, TRequest, TResponse>(
+    public static async Task<TResponse> Execute<TInteractor, TRequest, TResponse>(
         this IUseCase<TInteractor> useCase,
         TRequest request,
         CancellationToken cancellationToken = default)
         where TInteractor : IUseCaseInteractor<TRequest, TResponse>
     {
-        return useCase.InternalExecute<TRequest, TResponse>(request, cancellationToken);
+        return await useCase.InternalExecute<TRequest, TResponse>(request, cancellationToken)
+            .ConfigureAwait(false);
     }
 }

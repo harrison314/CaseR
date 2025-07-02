@@ -30,6 +30,9 @@ public static class ServiceCollectionDynamicExtensions
 
         foreach (var item in typesToRegister)
         {
+            //TODO: Process generic types not only continue
+            if (item.Type.IsGenericTypeDefinition) continue;
+
             services.AddScoped(item.Type);
         }
 
@@ -44,6 +47,9 @@ public static class ServiceCollectionDynamicExtensions
 
         foreach (var item in typesToRegisterEventeHandlers)
         {
+            //TODO: Process generic types not only continue
+            if (item.Type.IsGenericTypeDefinition) continue;
+
             services.AddScoped(item.Interface, item.Type);
         }
     }

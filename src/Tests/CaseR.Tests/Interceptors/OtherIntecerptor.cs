@@ -9,7 +9,7 @@ public class OtherIntecerptor<TRequest, TResponse> : IUseCaseInterceptor<TReques
         this.assertion = assertion;
     }
 
-    public async ValueTask<TResponse> InterceptExecution(IUseCaseInteractor<TRequest, TResponse> useCaseInteractor, TRequest request, UseCasePerformDelegate<TRequest, TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> InterceptExecution(IUseCaseInteractor<TRequest, TResponse> useCaseInteractor, TRequest request, UseCasePerformDelegate<TRequest, TResponse> next, CancellationToken cancellationToken)
     {
         TResponse response = await next(request);
         this.assertion.AddCall("OtherIntecerptor");

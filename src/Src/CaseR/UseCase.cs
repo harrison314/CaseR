@@ -15,7 +15,7 @@ internal class UseCase<TInteractor> : IUseCase<TInteractor>
         this.serviceProvider = serviceProvider;
     }
 
-    async ValueTask<TResponse> IUseCase<TInteractor>.InternalExecute<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken)
+    async Task<TResponse> IUseCase<TInteractor>.InternalExecute<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken)
     {
         IUseCaseInteractor<TRequest, TResponse> typedUseCase = (IUseCaseInteractor<TRequest, TResponse>)this.useCase;
 

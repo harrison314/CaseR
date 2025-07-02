@@ -16,7 +16,7 @@ internal class KeyedUseCase3<TInteractor, TRequest, TResponse> : IUseCase<TInter
         this.instanceKey = instanceKey;
     }
 
-    public async ValueTask<TResponse> Execute(TRequest request, CancellationToken cancellationToken = default)
+    public async Task<TResponse> Execute(TRequest request, CancellationToken cancellationToken = default)
     {
         IEnumerable<IUseCaseInterceptor<TRequest, TResponse>>? middlewares = this.serviceProvider.GetKeyedService<IEnumerable<IUseCaseInterceptor<TRequest, TResponse>>>(this.instanceKey);
         if (middlewares is null || !middlewares.Any())

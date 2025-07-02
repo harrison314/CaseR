@@ -2,6 +2,6 @@
 
 public interface IDomainEventPublisher
 {
-    ValueTask Publish<TEvent>(TEvent domainEvent, CancellationToken cancellationToken = default)
+    Task Publish<TEvent>(TEvent domainEvent, CancellationToken cancellationToken = default)
         where TEvent : IDomainEvent;
 }

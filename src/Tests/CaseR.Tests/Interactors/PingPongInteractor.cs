@@ -16,8 +16,8 @@ internal class PingPongInteractor : IUseCaseInteractor<Ping, Pong>
 
     }
 
-    public ValueTask<Pong> Execute(Ping request, CancellationToken cancellationToken)
+    public Task<Pong> Execute(Ping request, CancellationToken cancellationToken)
     {
-        return new ValueTask<Pong>(new Pong());
+        return Task.FromResult(new Pong());
     }
 }

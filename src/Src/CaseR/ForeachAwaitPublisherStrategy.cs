@@ -7,7 +7,7 @@ public sealed class ForeachAwaitPublisherStrategy : IDomainEventPublisherStrateg
 
     }
 
-    public async ValueTask Publish<TEvent>(IEnumerable<IDomainEventHandler<TEvent>> handlers,
+    public async Task Publish<TEvent>(IEnumerable<IDomainEventHandler<TEvent>> handlers,
         TEvent domainEvent,
         CancellationToken cancellationToken)
         where TEvent : IDomainEvent
@@ -16,33 +16,21 @@ public sealed class ForeachAwaitPublisherStrategy : IDomainEventPublisherStrateg
         {
             for (int i = 0; i < array.Length; i++)
             {
-                ValueTask valueTask = array[i].Handle(domainEvent, cancellationToken);
-                if (!valueTask.IsCompletedSuccessfully)
-                {
-                    await valueTask.ConfigureAwait(false);
-                }
+                await array[i].Handle(domainEvent, cancellationToken).ConfigureAwait(false);
             }
         }
         else if (handlers is List<IDomainEventHandler<TEvent>> list)
         {
             for (int i = 0; i < list.Count; i++)
             {
-                ValueTask valueTask = list[i].Handle(domainEvent, cancellationToken);
-                if (!valueTask.IsCompletedSuccessfully)
-                {
-                    await valueTask.ConfigureAwait(false);
-                }
+                await list[i].Handle(domainEvent, cancellationToken).ConfigureAwait(false);
             }
         }
         else
         {
             foreach (IDomainEventHandler<TEvent> handler in handlers)
             {
-                ValueTask valueTask = handler.Handle(domainEvent, cancellationToken);
-                if (!valueTask.IsCompletedSuccessfully)
-                {
-                    await valueTask.ConfigureAwait(false);
-                }
+                await handler.Handle(domainEvent, cancellationToken).ConfigureAwait(false);
             }
         }
     }

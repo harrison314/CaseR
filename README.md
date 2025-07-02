@@ -63,7 +63,7 @@ public class GetTodoInteractor : IUseCaseInterceptor<GetTodoInteractorRequest, T
         
     }
 
-    public ValueTask<Todo[]> Execute(GetTodoInteractorRequest request, CancellationToken cancellationToken)
+    public Task<Todo[]> Execute(GetTodoInteractorRequest request, CancellationToken cancellationToken)
     {
         Todo[] sampleTodos = new Todo[] 
         {
@@ -74,7 +74,7 @@ public class GetTodoInteractor : IUseCaseInterceptor<GetTodoInteractorRequest, T
                 new Todo(5, "Clean the car", DateOnly.FromDateTime(DateTime.Now.AddDays(2)))
         };
 
-        return new ValueTask<Todo[]>(sampleTodos);
+        return Task.FromResult(sampleTodos);
     }
 }
 ```
@@ -101,10 +101,10 @@ public record GetTodoItemInteractorEvent(int Id) : IDomainEvent;
 ```cs
 public class GetTodoItemInteractorEventHandler : IDomainEventHandler<GetTodoItemInteractorEvent>
 {
-    public ValueTask Handle(GetTodoItemInteractorEvent domainEvent, CancellationToken cancellationToken)
+    public Task Handle(GetTodoItemInteractorEvent domainEvent, CancellationToken cancellationToken)
     {
         //...
-        return ValueTask.CompletedTask;
+        return Task.CompletedTask;
     }
 }
 ```
@@ -133,7 +133,7 @@ public class ElapsedTimeInterceptor<TRequest, TResponse> : IUseCaseInterceptor<T
         this.logger = logger;
     }
 
-    public async ValueTask<TResponse> InterceptExecution(IUseCaseInteractor<TRequest, TResponse> useCaseInteractor, TRequest request, UseCasePerformDelegate<TRequest, TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> InterceptExecution(IUseCaseInteractor<TRequest, TResponse> useCaseInteractor, TRequest request, UseCasePerformDelegate<TRequest, TResponse> next, CancellationToken cancellationToken)
     {
         long timestamp = Stopwatch.GetTimestamp();
         try

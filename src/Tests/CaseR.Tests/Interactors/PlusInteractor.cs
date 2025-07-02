@@ -7,8 +7,8 @@ internal class PlusInteractor : IUseCaseInteractor<PlusInteractorRequest, int>
 
     }
 
-    public ValueTask<int> Execute(PlusInteractorRequest request, CancellationToken cancellationToken)
+    public Task<int> Execute(PlusInteractorRequest request, CancellationToken cancellationToken)
     {
-        return new ValueTask<int>(request.A + request.B);
+        return Task.FromResult(request.A + request.B);
     }
 }

@@ -75,7 +75,7 @@ namespace CaseR.SourceGenerator
                      /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
                      /// <returns>Returns value task with result.</returns>
                      [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-                     public static System.Threading.Tasks.ValueTask<{{{GetFullTypeName(extensionMethodDef.TResultType)}}}> {{{methodName}}}(this global::CaseR.IUseCase<{{{GetFullTypeName(extensionMethodDef.ClassDefinition.Symbol)}}}> useCase, {{{GetFullTypeName(extensionMethodDef.TRequestType)}}} request, System.Threading.CancellationToken cancellationToken = default)
+                     public static System.Threading.Tasks.Task<{{{GetFullTypeName(extensionMethodDef.TResultType)}}}> {{{methodName}}}(this global::CaseR.IUseCase<{{{GetFullTypeName(extensionMethodDef.ClassDefinition.Symbol)}}}> useCase, {{{GetFullTypeName(extensionMethodDef.TRequestType)}}} request, System.Threading.CancellationToken cancellationToken = default)
                      {
                         return global::CaseR.UseCaseExtensions.Execute<{{{GetFullTypeName(extensionMethodDef.ClassDefinition.Symbol)}}}, {{{GetFullTypeName(extensionMethodDef.TRequestType)}}}, {{{GetFullTypeName(extensionMethodDef.TResultType)}}}>(useCase, request, cancellationToken);
                      }

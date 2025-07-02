@@ -14,7 +14,7 @@ internal class UseCase3<TInteractor, TRequest, TResponse> : IUseCase<TInteractor
         this.serviceProvider = serviceProvider;
     }
 
-    public async ValueTask<TResponse> Execute(TRequest request, CancellationToken cancellationToken = default)
+    public async Task<TResponse> Execute(TRequest request, CancellationToken cancellationToken = default)
     {
         IEnumerable<IUseCaseInterceptor<TRequest, TResponse>>? middlewares = this.serviceProvider.GetService<IEnumerable<IUseCaseInterceptor<TRequest, TResponse>>>();
         if (middlewares is null || !middlewares.Any())

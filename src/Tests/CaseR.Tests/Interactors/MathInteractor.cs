@@ -16,7 +16,7 @@ internal class MathInteractor : IUseCaseInteractor<MathInteractorRequest, int>
         this.plusInteractors = plusInteractors;
     }
 
-    public async ValueTask<int> Execute(MathInteractorRequest request, CancellationToken cancellationToken)
+    public async Task<int> Execute(MathInteractorRequest request, CancellationToken cancellationToken)
     {
         int sum = await this.plusInteractors.Execute(new PlusInteractorRequest(request.A, request.B), cancellationToken);
 

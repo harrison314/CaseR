@@ -4,9 +4,9 @@ namespace WebAppExample.Todo.UseCases;
 
 public class GetTodoItemInteractorEventHandler : IDomainEventHandler<GetTodoItemInteractorEvent>
 {
-    public ValueTask Handle(GetTodoItemInteractorEvent domainEvent, CancellationToken cancellationToken)
+    public Task Handle(GetTodoItemInteractorEvent domainEvent, CancellationToken cancellationToken)
     {
         //...
-        return ValueTask.CompletedTask;
+        return Task.CompletedTask;
     }
 }

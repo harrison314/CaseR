@@ -8,7 +8,7 @@ public class GetTodoInteractor : IUseCaseInteractor<GetTodoInteractorRequest, To
     {
     }
 
-    public ValueTask<Todo[]> Execute(GetTodoInteractorRequest request, CancellationToken cancellationToken)
+    public Task<Todo[]> Execute(GetTodoInteractorRequest request, CancellationToken cancellationToken)
     {
         Todo[] sampleTodos = new Todo[]
         {
@@ -19,6 +19,6 @@ public class GetTodoInteractor : IUseCaseInteractor<GetTodoInteractorRequest, To
                 new Todo(5, "Clean the car", DateOnly.FromDateTime(DateTime.Now.AddDays(2)))
         };
 
-        return new ValueTask<Todo[]>(sampleTodos);
+        return Task.FromResult(sampleTodos);
     }
 }

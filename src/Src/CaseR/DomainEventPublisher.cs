@@ -15,17 +15,14 @@ internal class DomainEventPublisher : IDomainEventPublisher
         this.publisherStrategy = publisherStrategy;
     }
 
-    public async ValueTask Publish<TEvent>(TEvent domainEvent, CancellationToken cancellationToken = default)
+    public async Task Publish<TEvent>(TEvent domainEvent, CancellationToken cancellationToken = default)
         where TEvent : IDomainEvent
     {
         IEnumerable<IDomainEventHandler<TEvent>>? handlers = this.serviceProvider.GetService<IEnumerable<IDomainEventHandler<TEvent>>>();
         if (handlers != null)
         {
-            ValueTask valueTask = this.publisherStrategy.Publish(handlers, domainEvent, cancellationToken);
-            if (!valueTask.IsCompletedSuccessfully)
-            {
-                await valueTask.ConfigureAwait(false);
-            }
+            await this.publisherStrategy.Publish(handlers, domainEvent, cancellationToken)
+                .ConfigureAwait(false);
         }
     }
 }

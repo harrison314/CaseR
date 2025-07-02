@@ -17,7 +17,7 @@ internal class KeyedUseCase<TInteractor> : IUseCase<TInteractor>
         this.instanceKey = instanceKey;
     }
 
-    async ValueTask<TResponse> IUseCase<TInteractor>.InternalExecute<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken)
+    async Task<TResponse> IUseCase<TInteractor>.InternalExecute<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken)
     {
         return await this.InvokeWithPipeline(Unsafe.As<IUseCaseInteractor<TRequest, TResponse>>(this.useCase),
             request,
@@ -32,13 +32,8 @@ internal class KeyedUseCase<TInteractor> : IUseCase<TInteractor>
         IEnumerable<IUseCaseInterceptor<TRequest, TResponse>>? middlewares = this.serviceProvider.GetKeyedService<IEnumerable<IUseCaseInterceptor<TRequest, TResponse>>>(this.instanceKey);
         if (middlewares is null || !middlewares.Any())
         {
-            ValueTask<TResponse> valueTask = typedUseCase.Execute(request, cancellationToken);
-            if (!valueTask.IsCompletedSuccessfully)
-            {
-                return await valueTask.ConfigureAwait(false);
-            }
-
-            return valueTask.Result;
+            return await typedUseCase.Execute(request, cancellationToken)
+                .ConfigureAwait(false);
         }
 
         UseCasePerformDelegate<TRequest, TResponse> next = (req) => typedUseCase.Execute(req, cancellationToken);

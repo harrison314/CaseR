@@ -9,10 +9,10 @@ public class FooEventHandler : IDomainEventHandler<FooEvent>
         this.callAssertion = callAssertion;
     }
 
-    public ValueTask Handle(FooEvent @event, CancellationToken cancellationToken)
+    public Task Handle(FooEvent @event, CancellationToken cancellationToken)
     {
 
         this.callAssertion.AddCall("FooEventHandler");
-        return ValueTask.CompletedTask;
+        return Task.CompletedTask;
     }
 }

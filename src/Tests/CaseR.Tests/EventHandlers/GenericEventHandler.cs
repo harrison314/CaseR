@@ -16,9 +16,9 @@ public class GenericEventHandler<T> : IDomainEventHandler<T>
         this.callAssertion = callAssertion;
     }
 
-    public ValueTask Handle(T domainEvent, CancellationToken cancellationToken)
+    public Task Handle(T domainEvent, CancellationToken cancellationToken)
     {
         this.callAssertion.AddCall("GenericEventHandler");
-        return ValueTask.CompletedTask;
+        return Task.CompletedTask;
     }
 }

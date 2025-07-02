@@ -9,10 +9,10 @@ public class Bar2EventHandler : IDomainEventHandler<BarEvent>
         this.callAssertion = callAssertion;
     }
 
-    public ValueTask Handle(BarEvent @event, CancellationToken cancellationToken)
+    public Task Handle(BarEvent @event, CancellationToken cancellationToken)
     {
 
         this.callAssertion.AddCall("Bar2EventHandler");
-        return ValueTask.CompletedTask;
+        return Task.CompletedTask;
     }
 }
