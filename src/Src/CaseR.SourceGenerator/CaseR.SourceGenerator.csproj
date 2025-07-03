@@ -8,8 +8,6 @@
     <ImplicitUsings>false</ImplicitUsings>
     <LangVersion>Latest</LangVersion>
     <Title>CaseR.SourceGenerator</Title>
-    <RepositoryUrl>https://github.com/harrison314/CaseR</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/harrison314/CaseR</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>notifications;comands;queries;Use Case;Interactor;patterns;</PackageTags>
     <!--<EmbedUntrackedSources>true</EmbedUntrackedSources>-->

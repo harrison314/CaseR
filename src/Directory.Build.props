@@ -4,9 +4,8 @@
   <Authors>harrison314 - Jozef Gajdos</Authors>
   <Description></Description>
   <RepositoryType>git</RepositoryType>
-  <PackageTags></PackageTags>
-  <RepositoryUrl></RepositoryUrl>
-  <PackageProjectUrl></PackageProjectUrl>
+   <RepositoryUrl>https://github.com/harrison314/CaseR</RepositoryUrl>
+   <PackageProjectUrl>https://github.com/harrison314/CaseR</PackageProjectUrl>
   <Product>CaseR</Product>
   <Copyright>Copyright (c) $([System.DateTime]::Now.ToString('yyyy')), Jozef Gajdoš</Copyright>
   <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
