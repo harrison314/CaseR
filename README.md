@@ -19,8 +19,6 @@ I tried to solve mainly these problems:
 
 After a few projects where I used MediatR I realized a few things.
 Developers actually use MediatR to implement their use cases.
-There is no CQRS support, this arises naturally by having each HTTP request implemented in a separate class.
-It also doesn't directly implement the message queue either.
 
 Therefore, I decided to create a library that uses the correct terminology for _Use Case_ (and _interactor_ from Clean Architecture).
 
