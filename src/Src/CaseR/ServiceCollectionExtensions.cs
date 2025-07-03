@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
         services.TryAddScoped<IDomainEventPublisherStrategy, ForeachAwaitPublisherStrategy>();
 
         services.AddScoped(typeof(IUseCase<>), typeof(UseCase<>));
+        services.AddTransient(typeof(IAutoScopedUseCase<>), typeof(AutoScopedUseCase<>));
         options.Register(services);
     }
 
@@ -42,6 +43,7 @@ public static class ServiceCollectionExtensions
         services.TryAddScoped<IDomainEventPublisherStrategy, ForeachAwaitPublisherStrategy>();
 
         services.AddKeyedScoped(typeof(IUseCase<>), serviceKey, typeof(KeyedUseCase<>));
+        services.AddKeyedTransient(typeof(IAutoScopedUseCase<>), serviceKey, typeof(KeyedAutoScopedUseCase<>));
 
         options.Register(services);
     }

@@ -5,5 +5,3 @@ public interface IUseCase<T>
 {
     internal Task<TResponse> InternalExecute<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken = default);
 }
-
-

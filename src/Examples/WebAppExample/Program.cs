@@ -10,7 +10,7 @@ namespace WebAppExample
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateSlimBuilder(args);
+            WebApplicationBuilder builder = WebApplication.CreateSlimBuilder(args);
 
             builder.Services.ConfigureHttpJsonOptions(options =>
             {
@@ -20,9 +20,11 @@ namespace WebAppExample
             builder.Services.AddCaseR();
             builder.Services.AddCaseRInteractors();
 
-            var app = builder.Build();
+            builder.Services.AddHostedService<TimerLoggingService>();
 
-            var todosApi = app.MapGroup("/todos");
+            WebApplication app = builder.Build();
+
+            RouteGroupBuilder todosApi = app.MapGroup("/todos");
             todosApi.MapGet("/", async (IUseCase<GetTodoInteractor> getTodoInteractor,
                 CancellationToken cancellationToken) =>
             {

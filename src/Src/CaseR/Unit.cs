@@ -11,9 +11,9 @@ public readonly struct Unit : IEquatable<Unit>
 {
     public static readonly Unit Value = new Unit();
 
-    public static ValueTask<Unit> ValueTask
+    public static Task<Unit> Task
     {
-        get => new ValueTask<Unit>(Value);
+        get => System.Threading.Tasks.Task.FromResult(Value);
     }
 
     public Unit()
