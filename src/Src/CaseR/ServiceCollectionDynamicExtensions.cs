@@ -24,8 +24,9 @@ public static class ServiceCollectionDynamicExtensions
             .GetTypes()
             .Where(t => t.IsClass && !t.IsAbstract)
             .SelectMany(t => t.GetInterfaces(), (t, i) => new { Type = t, Interface = i })
-            .Where(x => x.Interface.IsGenericType &&
-                        x.Interface.GetGenericTypeDefinition() == useCaseInteactorType)
+            .Where(x => x.Interface.IsGenericType
+                        && x.Interface.GetGenericTypeDefinition() == useCaseInteactorType
+                        && !Attribute.IsDefined(x.Type, typeof(ExcludeFromRegistrationAttribute)))
             .ToList();
 
         foreach (var item in typesToRegister)
@@ -36,13 +37,13 @@ public static class ServiceCollectionDynamicExtensions
             services.AddScoped(item.Type);
         }
 
-
         var typesToRegisterEventeHandlers = searchAssembly
             .GetTypes()
             .Where(t => t.IsClass && !t.IsAbstract)
             .SelectMany(t => t.GetInterfaces(), (t, i) => new { Type = t, Interface = i })
-            .Where(x => x.Interface.IsGenericType &&
-                        x.Interface.GetGenericTypeDefinition() == eventHandlerType)
+            .Where(x => x.Interface.IsGenericType
+                        && x.Interface.GetGenericTypeDefinition() == eventHandlerType
+                        && !Attribute.IsDefined(x.Type, typeof(ExcludeFromRegistrationAttribute)))
             .ToList();
 
         foreach (var item in typesToRegisterEventeHandlers)

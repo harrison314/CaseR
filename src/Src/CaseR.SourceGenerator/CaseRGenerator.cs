@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -63,6 +64,11 @@ public class CaseRGenerator : IIncrementalGenerator
                         }
                         else
                         {
+                            if (this.TypeIsExcludeFromRegistration(symbol))
+                            {
+                                continue;
+                            }
+
                             useCaseDefinitions.Add(new UseCaseImplDefinitions(new ProcessableClassDefinition(symbol),
                                 usedInterface.TypeArguments[0],
                                 usedInterface.TypeArguments[1]));
@@ -71,6 +77,11 @@ public class CaseRGenerator : IIncrementalGenerator
 
                     if (this.TypeIsDomainEventHandlerInterface(usedInterface))
                     {
+                        if (this.TypeIsExcludeFromRegistration(symbol))
+                        {
+                            continue;
+                        }
+
                         if (symbol.IsGenericType)
                         {
                             spc.ReportDiagnostic(
@@ -109,5 +120,11 @@ public class CaseRGenerator : IIncrementalGenerator
     private bool TypeIsDomainEventHandlerInterface(INamedTypeSymbol typeSymbol)
     {
         return typeSymbol.OriginalDefinition.ToDisplayString() == "CaseR.IDomainEventHandler<TEvent>";
+    }
+
+    private bool TypeIsExcludeFromRegistration(INamedTypeSymbol typeSymbol)
+    {
+        ImmutableArray<AttributeData> attributeList = typeSymbol.GetAttributes();
+        return attributeList.Any(t => t.AttributeClass?.ToDisplayString() == "CaseR.ExcludeFromRegistrationAttribute");
     }
 }
