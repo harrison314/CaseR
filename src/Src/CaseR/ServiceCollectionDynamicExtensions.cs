@@ -48,10 +48,19 @@ public static class ServiceCollectionDynamicExtensions
 
         foreach (var item in typesToRegisterEventeHandlers)
         {
-            //TODO: Process generic types not only continue
-            if (item.Type.IsGenericTypeDefinition) continue;
+            if (item.Type.IsGenericTypeDefinition)
+            {
+                if (item.Type.GetGenericArguments().Length != 1)
+                {
+                    continue;
+                }
 
-            services.AddScoped(item.Interface, item.Type);
+                services.AddScoped(typeof(IDomainEventHandler<>), item.Type);
+            }
+            else
+            {
+                services.AddScoped(item.Interface, item.Type);
+            }
         }
     }
 

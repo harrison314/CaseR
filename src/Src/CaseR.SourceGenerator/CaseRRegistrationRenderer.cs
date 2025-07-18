@@ -4,7 +4,6 @@ using System.Text;
 
 namespace CaseR.SourceGenerator;
 
-
 internal static class CaseRRegistrationRenderer
 {
     public static string RenderRegistrationFile(List<UseCaseImplDefinitions> useCaseDefinitions,
@@ -56,10 +55,9 @@ internal static class CaseRRegistrationRenderer
         {
             if (def.TDomainEvent == null)
             {
-                //TODO: after fix generic domain event handlers
                 string className = def.ClassDefinition.Symbol.ConstructUnboundGenericType().ToString();
                 sb.Append($$$""""
-                       // services.Add(new ServiceDescriptor(typeof(global::CaseR.IDomainEventHandler<>), typeof({{{className}}}), ServiceLifetime.Scoped));
+                       services.Add(new ServiceDescriptor(typeof(global::CaseR.IDomainEventHandler<>), typeof({{{className}}}), ServiceLifetime.Scoped));
 
                 """");
             }
@@ -67,7 +65,7 @@ internal static class CaseRRegistrationRenderer
             {
                 string className = def.ClassDefinition.Symbol.ToString();
                 sb.Append($$$""""
-                        services.Add(new ServiceDescriptor(typeof(global::CaseR.IDomainEventHandler<{{{def.TDomainEvent}}}>), typeof({{{className}}}), ServiceLifetime.Scoped));
+                       services.Add(new ServiceDescriptor(typeof(global::CaseR.IDomainEventHandler<{{{def.TDomainEvent}}}>), typeof({{{className}}}), ServiceLifetime.Scoped));
 
                 """");
             }

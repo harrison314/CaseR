@@ -1,6 +1,7 @@
 ﻿using CaseR.Tests.EventHandlers;
 using CaseR.Tests.Interactors;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,8 @@ public sealed class ExcludeFromRegistrationTests
         serviceCollection.AddCaseR();
         serviceCollection.AddCaseRInteractors(typeof(ExcludeFromRegistrationTests));
 
+        // Remove generic handlers
+        serviceCollection.RemoveAll(typeof(IDomainEventHandler<>));
 
         ServiceProvider sp = serviceCollection.BuildServiceProvider(true);
         await using AsyncServiceScope scope = sp.CreateAsyncScope();
@@ -71,6 +74,8 @@ public sealed class ExcludeFromRegistrationTests
         serviceCollection.AddCaseR();
         serviceCollection.AddCaseRInteractors();
 
+        // Remove generic handlers
+        serviceCollection.RemoveAll(typeof(IDomainEventHandler<>));
 
         ServiceProvider sp = serviceCollection.BuildServiceProvider(true);
         await using AsyncServiceScope scope = sp.CreateAsyncScope();
