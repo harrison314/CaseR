@@ -84,14 +84,6 @@ public class CaseRGenerator : IIncrementalGenerator
 
                         if (symbol.IsGenericType)
                         {
-                            spc.ReportDiagnostic(
-                               Diagnostic.Create(
-                                   new DiagnosticDescriptor("CaseR002", "Domain event handler can not by generic.",
-                                       "Domain event handler can not by generic, but found: {0}",
-                                       "CaseR", DiagnosticSeverity.Warning, true),
-                                   Location.Create(classSyntax.SyntaxTree, classSyntax.Span),
-                                   symbol.ToDisplayString()));
-
                             domainEvenets.Add(new DomainHandlerImplDefinitions(new ProcessableClassDefinition(symbol),
                                 null));
                         }
