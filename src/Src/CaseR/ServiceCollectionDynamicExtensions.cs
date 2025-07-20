@@ -10,8 +10,16 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
+/// <summary>
+/// Extensions for registering CaseR interactors and domain event handlers dynamically.
+/// </summary>
 public static class ServiceCollectionDynamicExtensions
 {
+    /// <summary>
+    /// Dynamically registers all use case interactors and domain event handlers from the specified assembly.
+    /// </summary>
+    /// <param name="services">IoC services.</param>
+    /// <param name="searchAssembly">Assembly when CaseR serach interactors and domain event handlers.</param>
     [RequiresDynamicCode("This code require dynamic assembly scanning.")]
     public static void AddCaseRInteractors(this IServiceCollection services, Assembly searchAssembly)
     {
@@ -64,6 +72,11 @@ public static class ServiceCollectionDynamicExtensions
         }
     }
 
+    /// <summary>
+    /// Dynamically registers all use case interactors and domain event handlers from the specified assembly when contsins <paramref name="assemblyType"/>.
+    /// </summary>
+    /// <param name="services">IoC services.</param>
+    /// <param name="assemblyType">Type from assembly when CaseR serach interactors and domain event handlers.</param>
     [RequiresDynamicCode("This code require dynamic assembly scanning.")]
     public static void AddCaseRInteractors(this IServiceCollection services, Type assemblyType)
     {

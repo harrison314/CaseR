@@ -1,12 +1,19 @@
 ﻿namespace CaseR;
 
+/// <summary>
+/// Domain event publush strategy that uses a foreach loop to await each handler.
+/// </summary>
 public sealed class ForeachAwaitPublisherStrategy : IDomainEventPublisherStrategy
 {
+    /// <summary>
+    /// Initialize a new instance of the <see cref="ForeachAwaitPublisherStrategy"/> class.
+    /// </summary>
     public ForeachAwaitPublisherStrategy()
     {
 
     }
 
+    /// <inheritdoc />
     public async Task Publish<TEvent>(IEnumerable<IDomainEventHandler<TEvent>> handlers,
         TEvent domainEvent,
         CancellationToken cancellationToken)
