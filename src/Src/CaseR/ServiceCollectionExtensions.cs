@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
@@ -10,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
+/// <summary>
+/// Extensions for registering CaseR services and domain event handlers in the service collection.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>
@@ -36,18 +40,18 @@ public static class ServiceCollectionExtensions
     /// <typeparam name="TEvent">The domain event type.</typeparam>
     /// <typeparam name="THandler">The domain event handler type</typeparam>
     /// <param name="services">IoC services.</param>
-    public static void AddCaseRDomainEventHandler<TEvent, THandler>(this IServiceCollection services)
+    public static void AddCaseRDomainEventHandler<TEvent, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] THandler>(this IServiceCollection services)
         where TEvent : IDomainEvent
         where THandler : class, IDomainEventHandler<TEvent>
     {
-       services.TryAddScoped<IDomainEventHandler<TEvent>, THandler>();
+        services.TryAddScoped<IDomainEventHandler<TEvent>, THandler>();
     }
 
     /// <summary>
     /// Add keyed CaseR services with pipeline to the service collection.
     /// </summary>
     /// <param name="services">IoC services.</param>
-    /// <param name="serviceKey">The <see cref="ServiceDescriptor.ServiceKey"> of the registred services and pipeline.</param>
+    /// <param name="serviceKey">The <see cref="ServiceDescriptor.ServiceKey" /> of the registred services and pipeline.</param>
     /// <param name="configure">Configuration action.</param>
     public static void AddKeyedCaseR(this IServiceCollection services, string serviceKey, Action<CaseROptions>? configure = null)
     {

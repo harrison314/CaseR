@@ -21,6 +21,7 @@ public static class ServiceCollectionDynamicExtensions
     /// <param name="services">IoC services.</param>
     /// <param name="searchAssembly">Assembly when CaseR serach interactors and domain event handlers.</param>
     [RequiresDynamicCode("This code require dynamic assembly scanning.")]
+    [RequiresUnreferencedCode("This code require dynamic assembly scanning.")]
     public static void AddCaseRInteractors(this IServiceCollection services, Assembly searchAssembly)
     {
         ArgumentNullException.ThrowIfNull(searchAssembly);
@@ -78,6 +79,7 @@ public static class ServiceCollectionDynamicExtensions
     /// <param name="services">IoC services.</param>
     /// <param name="assemblyType">Type from assembly when CaseR serach interactors and domain event handlers.</param>
     [RequiresDynamicCode("This code require dynamic assembly scanning.")]
+    [RequiresUnreferencedCode("This code require dynamic assembly scanning.")]
     public static void AddCaseRInteractors(this IServiceCollection services, Type assemblyType)
     {
         ArgumentNullException.ThrowIfNull(assemblyType);

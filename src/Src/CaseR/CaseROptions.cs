@@ -38,7 +38,7 @@ public sealed class CaseROptions
     /// <typeparam name="TRequest">Type for interactor request.</typeparam>
     /// <typeparam name="TResponse">Type for interactor response.</typeparam>
     /// <typeparam name="TInterceptor">Interceptor type.</typeparam>
-    public void AddInterceptor<TRequest, TResponse, TInterceptor>()
+    public void AddInterceptor<TRequest, TResponse, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TInterceptor>()
         where TInterceptor : IUseCaseInterceptor<TRequest, TResponse>
     {
         this.interceptors.Add(new ServiceDescriptor(typeof(IUseCaseInterceptor<TRequest, TResponse>), this.serviceKey, typeof(TInterceptor), ServiceLifetime.Scoped));
