@@ -51,7 +51,7 @@ public static class ServiceCollectionExtensions
     /// Add keyed CaseR services with pipeline to the service collection.
     /// </summary>
     /// <param name="services">IoC services.</param>
-    /// <param name="serviceKey">The <see cref="ServiceDescriptor.ServiceKey" /> of the registred services and pipeline.</param>
+    /// <param name="serviceKey">The <see cref="ServiceDescriptor.ServiceKey" /> of the registered services and pipeline.</param>
     /// <param name="configure">Configuration action.</param>
     public static void AddKeyedCaseR(this IServiceCollection services, string serviceKey, Action<CaseROptions>? configure = null)
     {

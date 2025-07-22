@@ -1,7 +1,7 @@
 ﻿namespace CaseR;
 
 /// <summary>
-/// Domain event publush strategy that uses a foreach loop to await each handler.
+/// Domain event publish strategy that uses a foreach loop to await each handler.
 /// </summary>
 public sealed class ForeachAwaitPublisherStrategy : IDomainEventPublisherStrategy
 {

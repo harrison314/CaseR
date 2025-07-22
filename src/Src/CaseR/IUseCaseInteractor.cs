@@ -1,7 +1,7 @@
 ﻿namespace CaseR;
 
 /// <summary>
-/// Defines a contract for implementig use case interactor.
+/// Defines a contract for implementing use case interactor.
 /// </summary>
 /// <typeparam name="TRequest">Request type.</typeparam>
 /// <typeparam name="TResponse">Response type.</typeparam>

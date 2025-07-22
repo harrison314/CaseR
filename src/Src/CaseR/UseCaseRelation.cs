@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CaseR;
 
 /// <summary>
-/// Default use case relatiion names.
+/// Default use case relations names.
 /// </summary>
 public static class UseCaseRelation
 {
