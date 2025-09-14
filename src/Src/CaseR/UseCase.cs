@@ -59,4 +59,46 @@ internal class UseCase<TInteractor> : IUseCase<TInteractor>
 
         return await next(request).ConfigureAwait(false);
     }
+
+    IAsyncEnumerable<TResponse> IUseCase<TInteractor>.InternalExecuteStreaming<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken)
+    {
+        IUseCaseStreamInteractor<TRequest, TResponse> typedUseCase = (IUseCaseStreamInteractor<TRequest, TResponse>)this.useCase;
+
+        IEnumerable<IUseCaseStreamInterceptor<TRequest, TResponse>>? middlewares = this.serviceProvider.GetService<IEnumerable<IUseCaseStreamInterceptor<TRequest, TResponse>>>();
+        if (middlewares is null || !middlewares.Any())
+        {
+            return typedUseCase.Execute(request, cancellationToken);
+        }
+
+        UseCaseStreamPerformDelegate<TRequest, TResponse> next = (req) => typedUseCase.Execute(req, cancellationToken);
+
+        if (middlewares is IUseCaseStreamInterceptor<TRequest, TResponse>[] array)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                UseCaseStreamPerformDelegate<TRequest, TResponse> currentNext = next;
+                IUseCaseStreamInterceptor<TRequest, TResponse> interceptor = array[i];
+                next = (req) => interceptor.InterceptExecution(typedUseCase, req, currentNext, cancellationToken);
+            }
+        }
+        else if (middlewares is List<IUseCaseStreamInterceptor<TRequest, TResponse>> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                UseCaseStreamPerformDelegate<TRequest, TResponse> currentNext = next;
+                IUseCaseStreamInterceptor<TRequest, TResponse> interceptor = list[i];
+                next = (req) => interceptor.InterceptExecution(typedUseCase, req, currentNext, cancellationToken);
+            }
+        }
+        else
+        {
+            foreach (IUseCaseStreamInterceptor<TRequest, TResponse> middleware in middlewares)
+            {
+                UseCaseStreamPerformDelegate<TRequest, TResponse> currentNext = next;
+                next = (req) => middleware.InterceptExecution(typedUseCase, req, currentNext, cancellationToken);
+            }
+        }
+
+        return next(request);
+    }
 }

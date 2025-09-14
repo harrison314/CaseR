@@ -28,4 +28,14 @@ public static class UseCaseExtensions
         return await useCase.InternalExecute<TRequest, TResponse>(request, cancellationToken)
             .ConfigureAwait(false);
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static IAsyncEnumerable<TResponse> ExecuteStreaming<TInteractor, TRequest, TResponse>(
+        this IUseCase<TInteractor> useCase,
+        TRequest request,
+        CancellationToken cancellationToken = default)
+        where TInteractor : IUseCaseStreamInteractor<TRequest, TResponse>
+    {
+        return useCase.InternalExecuteStreaming<TRequest, TResponse>(request, cancellationToken);
+    }
 }

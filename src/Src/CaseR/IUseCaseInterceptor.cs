@@ -21,3 +21,14 @@ public interface IUseCaseInterceptor<TRequest, TResponse>
         UseCasePerformDelegate<TRequest, TResponse> next,
         CancellationToken cancellationToken);
 }
+
+
+
+public interface IUseCaseStreamInterceptor<TRequest, TResponse>
+{
+
+    IAsyncEnumerable<TResponse> InterceptExecution(IUseCaseStreamInteractor<TRequest, TResponse> useCaseInteractor,
+        TRequest request,
+        UseCaseStreamPerformDelegate<TRequest, TResponse> next,
+        CancellationToken cancellationToken);
+}
