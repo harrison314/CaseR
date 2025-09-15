@@ -5,19 +5,19 @@
 /// the use case is executed.
 /// </summary>
 /// <typeparam name="TRequest">The type of the request object passed to the use case.</typeparam>
-/// <typeparam name="TResponse">The type of the response object returned by the use case.</typeparam>
-public interface IUseCaseInterceptor<TRequest, TResponse>
+/// <typeparam name="TResponse">The type of streaming response object returned by the use case.</typeparam>
+public interface IUseCaseStreamInterceptor<TRequest, TResponse>
 {
     /// <summary>
-    /// Method to intercept the execution of a use case interactor.
+    /// Method to intercept the execution of a streaming use case interactor.
     /// </summary>
     /// <param name="useCaseInteractor">The interactor instance.</param>
     /// <param name="request">The request instance.</param>
     /// <param name="next">The next delegate.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests. The operation should be canceled if the token is triggered.</param>
-    /// <returns>Interactor response.</returns>
-    Task<TResponse> InterceptExecution(IUseCaseInteractor<TRequest, TResponse> useCaseInteractor,
+    /// <returns>Iterator streaming response.</returns>
+    IAsyncEnumerable<TResponse> InterceptExecution(IUseCaseStreamInteractor<TRequest, TResponse> useCaseInteractor,
         TRequest request,
-        UseCasePerformDelegate<TRequest, TResponse> next,
+        UseCaseStreamPerformDelegate<TRequest, TResponse> next,
         CancellationToken cancellationToken);
 }

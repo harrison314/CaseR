@@ -29,6 +29,16 @@ public static class UseCaseExtensions
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Execute the streaming use case interactor.
+    /// </summary>
+    /// <typeparam name="TInteractor">Use case interactor type.</typeparam>
+    /// <typeparam name="TRequest">Request type.</typeparam>
+    /// <typeparam name="TResponse">Response type.</typeparam>
+    /// <param name="useCase">Use case interactor.</param>
+    /// <param name="request">Request instance.</param>
+    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+    /// <returns>Returns task with result.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IAsyncEnumerable<TResponse> ExecuteStreaming<TInteractor, TRequest, TResponse>(
         this IUseCase<TInteractor> useCase,

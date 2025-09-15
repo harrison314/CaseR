@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,5 +25,17 @@ internal class AutoScopedUseCase<T> : IAutoScopedUseCase<T>
         IUseCase<T> useCase = scope.ServiceProvider.GetRequiredService<IUseCase<T>>();
 
         return await useCase.InternalExecute<TRequest, TResponse>(request, cancellationToken).ConfigureAwait(false);
+    }
+
+    async IAsyncEnumerable<TResponse> IUseCase<T>.InternalExecuteStreaming<TRequest, TResponse>(TRequest request, [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        IServiceScopeFactory scopeFactory = this.serviceProvider.GetRequiredService<IServiceScopeFactory>();
+        using IServiceScope scope = scopeFactory.CreateScope();
+        IUseCase<T> useCase = scope.ServiceProvider.GetRequiredService<IUseCase<T>>();
+
+        await foreach (TResponse response in useCase.InternalExecuteStreaming<TRequest, TResponse>(request, cancellationToken))
+        {
+            yield return response;
+        }
     }
 }
