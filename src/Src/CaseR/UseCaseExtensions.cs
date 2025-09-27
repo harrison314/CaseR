@@ -38,7 +38,7 @@ public static class UseCaseExtensions
     /// <param name="useCase">Use case interactor.</param>
     /// <param name="request">Request instance.</param>
     /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-    /// <returns>Returns task with result.</returns>
+    /// <returns>Returns async enumeable with result.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IAsyncEnumerable<TResponse> ExecuteStreaming<TInteractor, TRequest, TResponse>(
         this IUseCase<TInteractor> useCase,

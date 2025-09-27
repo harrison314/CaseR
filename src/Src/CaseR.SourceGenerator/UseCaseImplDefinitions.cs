@@ -9,6 +9,11 @@ internal class UseCaseImplDefinitions
         get;
     }
 
+    public UseCaseInteractorType UseCaseInteractorType 
+    { 
+        get; 
+    }
+
     public ITypeSymbol TRequestType
     {
         get;
@@ -20,10 +25,12 @@ internal class UseCaseImplDefinitions
     }
 
     public UseCaseImplDefinitions(ProcessableClassDefinition classDefinition,
+        UseCaseInteractorType useCaseInteractorType,
        ITypeSymbol tRequestType,
        ITypeSymbol tResultType)
     {
         this.ClassDefinition = classDefinition;
+        this.UseCaseInteractorType = useCaseInteractorType;
         this.TRequestType = tRequestType;
         this.TResultType = tResultType;
     }

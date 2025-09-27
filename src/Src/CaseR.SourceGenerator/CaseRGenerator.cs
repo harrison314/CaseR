@@ -50,7 +50,8 @@ public class CaseRGenerator : IIncrementalGenerator
 
                 foreach (INamedTypeSymbol usedInterface in symbol.AllInterfaces)
                 {
-                    if (this.TypeIsInteractorInterface(usedInterface))
+                    UseCaseInteractorType interactorType = this.GetInteractorInterface(usedInterface);
+                    if (interactorType != UseCaseInteractorType.None)
                     {
                         if (symbol.IsGenericType)
                         {
@@ -70,6 +71,7 @@ public class CaseRGenerator : IIncrementalGenerator
                             }
 
                             useCaseDefinitions.Add(new UseCaseImplDefinitions(new ProcessableClassDefinition(symbol),
+                                interactorType,
                                 usedInterface.TypeArguments[0],
                                 usedInterface.TypeArguments[1]));
                         }
@@ -104,9 +106,20 @@ public class CaseRGenerator : IIncrementalGenerator
         });
     }
 
-    private bool TypeIsInteractorInterface(INamedTypeSymbol typeSymbol)
+    private UseCaseInteractorType GetInteractorInterface(INamedTypeSymbol typeSymbol)
     {
-        return typeSymbol.OriginalDefinition.ToDisplayString() == "CaseR.IUseCaseInteractor<TRequest, TResponse>";
+        UseCaseInteractorType type = UseCaseInteractorType.None;
+        if (typeSymbol.OriginalDefinition.ToDisplayString() == "CaseR.IUseCaseInteractor<TRequest, TResponse>")
+        {
+            type |= UseCaseInteractorType.Standard;
+        }
+
+        if (typeSymbol.OriginalDefinition.ToDisplayString() == "CaseR.IUseCaseStreamInteractor<TRequest, TResponse>")
+        {
+            type |= UseCaseInteractorType.Streaming;
+        }
+
+        return type;
     }
 
     private bool TypeIsDomainEventHandlerInterface(INamedTypeSymbol typeSymbol)

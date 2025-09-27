@@ -31,6 +31,29 @@ public sealed class PipelinesTests
     }
 
     [TestMethod]
+    public async Task AddCaseR_StreamingNoInteceptor_Success()
+    {
+        ServiceCollection serviceCollection = new ServiceCollection();
+
+        serviceCollection.AddCaseR();
+        serviceCollection.AddCaseRInteractors(typeof(RegistrationTests));
+
+        CallAssertion callAssertion = new CallAssertion();
+        serviceCollection.AddSingleton(callAssertion);
+
+        ServiceProvider sp = serviceCollection.BuildServiceProvider(true);
+        await using AsyncServiceScope scope = sp.CreateAsyncScope();
+
+        IUseCase<PingPongStreamingInteractor> interactor = scope.ServiceProvider.GetRequiredService<IUseCase<PingPongStreamingInteractor>>();
+
+        IAsyncEnumerable<Pong> pongs = interactor.ExecuteStreaming(new Ping(), CancellationToken.None);
+
+        Assert.IsNotNull(pongs);
+
+        callAssertion.AssertNoCalls();
+    }
+
+    [TestMethod]
     public async Task AddCaseR_GenericInteceptor_Success()
     {
         ServiceCollection serviceCollection = new ServiceCollection();

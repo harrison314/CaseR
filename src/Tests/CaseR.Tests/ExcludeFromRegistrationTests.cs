@@ -31,6 +31,23 @@ public sealed class ExcludeFromRegistrationTests
     }
 
     [TestMethod]
+    public async Task ExcludeFromRegistration_StreamingRegisterInteractorWithReflection_Success()
+    {
+        ServiceCollection serviceCollection = new ServiceCollection();
+
+        serviceCollection.AddCaseR();
+        serviceCollection.AddCaseRInteractors(typeof(ExcludeFromRegistrationTests));
+
+
+        ServiceProvider sp = serviceCollection.BuildServiceProvider(true);
+        await using AsyncServiceScope scope = sp.CreateAsyncScope();
+
+        object? interactor = scope.ServiceProvider.GetService(typeof(ExcludeUseCaseStreamInteractor));
+
+        Assert.IsNull(interactor, "ExcludeFromRegistration should prevent registration of ExcludeUseCaseStreamInteractor");
+    }
+
+    [TestMethod]
     public async Task ExcludeFromRegistration_RegisterInteractorWithoutReflection_Success()
     {
         ServiceCollection serviceCollection = new ServiceCollection();
@@ -45,6 +62,23 @@ public sealed class ExcludeFromRegistrationTests
         object? interactor = scope.ServiceProvider.GetService(typeof(ExcludeUseCaseInteractor));
 
         Assert.IsNull(interactor, "ExcludeFromRegistration should prevent registration of ExcludeUseCaseInteractor");
+    }
+
+    [TestMethod]
+    public async Task ExcludeFromRegistration_StreamingRegisterInteractorWithoutReflection_Success()
+    {
+        ServiceCollection serviceCollection = new ServiceCollection();
+
+        serviceCollection.AddCaseR();
+        serviceCollection.AddCaseRInteractors();
+
+
+        ServiceProvider sp = serviceCollection.BuildServiceProvider(true);
+        await using AsyncServiceScope scope = sp.CreateAsyncScope();
+
+        object? interactor = scope.ServiceProvider.GetService(typeof(ExcludeUseCaseStreamInteractor));
+
+        Assert.IsNull(interactor, "ExcludeFromRegistration should prevent registration of ExcludeUseCaseStreamInteractor");
     }
 
     [TestMethod]

@@ -27,6 +27,7 @@ public static class ServiceCollectionDynamicExtensions
         ArgumentNullException.ThrowIfNull(searchAssembly);
 
         Type useCaseInteactorType = typeof(IUseCaseInteractor<,>);
+        Type useCaseStreamInteactorType = typeof(IUseCaseStreamInteractor<,>);
         Type eventHandlerType = typeof(IDomainEventHandler<>);
 
         var typesToRegister = searchAssembly
@@ -34,7 +35,8 @@ public static class ServiceCollectionDynamicExtensions
             .Where(t => t.IsClass && !t.IsAbstract)
             .SelectMany(t => t.GetInterfaces(), (t, i) => new { Type = t, Interface = i })
             .Where(x => x.Interface.IsGenericType
-                        && x.Interface.GetGenericTypeDefinition() == useCaseInteactorType
+                        && (x.Interface.GetGenericTypeDefinition() == useCaseInteactorType
+                             || x.Interface.GetGenericTypeDefinition() == useCaseStreamInteactorType)
                         && !Attribute.IsDefined(x.Type, typeof(ExcludeFromRegistrationAttribute)))
             .ToList();
 
