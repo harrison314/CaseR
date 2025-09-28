@@ -39,14 +39,22 @@ namespace WebAppExample
                 return todo;
             });
 
+            todosApi.MapGet("/stream", async (IUseCase<GetTodoStreamingInteractor> getTodoInteractor,
+                CancellationToken cancellationToken) =>
+            {
+                //TODO: Switch to SSE in .NET 10
+                IAsyncEnumerable<WebAppExample.Todo.UseCases.Todo> todos = getTodoInteractor.ExecuteStreaming(new GetTodoInteractorRequest(), cancellationToken);
+                return Results.Ok(todos);
+            });
 
             app.Run();
         }
     }
 
-    
+
 
     [JsonSerializable(typeof(WebAppExample.Todo.UseCases.Todo[]))]
+    [JsonSerializable(typeof(IAsyncEnumerable<WebAppExample.Todo.UseCases.Todo>))]
     internal partial class AppJsonSerializerContext : JsonSerializerContext
     {
 
