@@ -29,7 +29,26 @@ public sealed class CaseROptions
             throw new ArgumentException("Interceptor type must be an open generic type.", nameof(interceptorType));
         }
 
+        System.Diagnostics.Debug.Assert(interceptorType.IsAssignableTo(typeof(IUseCaseInterceptor<,>)));
+
         this.interceptors.Add(new ServiceDescriptor(typeof(IUseCaseInterceptor<,>), this.serviceKey, interceptorType, ServiceLifetime.Scoped));
+    }
+
+    /// <summary>
+    /// Add stream interceptor with open generic type.
+    /// </summary>
+    /// <param name="interceptorType">Open generic interceptor type.</param>
+    public void AddGenericStreamingInterceptor([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type interceptorType)
+    {
+        ArgumentNullException.ThrowIfNull(interceptorType);
+        if (!interceptorType.IsGenericType)
+        {
+            throw new ArgumentException("Interceptor type must be an open generic type.", nameof(interceptorType));
+        }
+
+        System.Diagnostics.Debug.Assert(interceptorType.IsAssignableTo(typeof(IUseCaseStreamInterceptor<,>)));
+
+        this.interceptors.Add(new ServiceDescriptor(typeof(IUseCaseStreamInterceptor<,>), this.serviceKey, interceptorType, ServiceLifetime.Scoped));
     }
 
     /// <summary>
@@ -42,6 +61,18 @@ public sealed class CaseROptions
         where TInterceptor : IUseCaseInterceptor<TRequest, TResponse>
     {
         this.interceptors.Add(new ServiceDescriptor(typeof(IUseCaseInterceptor<TRequest, TResponse>), this.serviceKey, typeof(TInterceptor), ServiceLifetime.Scoped));
+    }
+
+    /// <summary>
+    /// Add concrete interceptor type.
+    /// </summary>
+    /// <typeparam name="TRequest">Type for interactor request.</typeparam>
+    /// <typeparam name="TResponse">Type for interactor response.</typeparam>
+    /// <typeparam name="TInterceptor">Interceptor type.</typeparam>
+    public void AddStreamingInterceptor<TRequest, TResponse, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TInterceptor>()
+        where TInterceptor : IUseCaseStreamInterceptor<TRequest, TResponse>
+    {
+        this.interceptors.Add(new ServiceDescriptor(typeof(IUseCaseStreamInterceptor<TRequest, TResponse>), this.serviceKey, typeof(TInterceptor), ServiceLifetime.Scoped));
     }
 
     internal void Register(IServiceCollection services)

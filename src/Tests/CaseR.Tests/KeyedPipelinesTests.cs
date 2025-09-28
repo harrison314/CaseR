@@ -40,6 +40,41 @@ public sealed class KeyedPipelinesTests
     }
 
     [TestMethod]
+    public async Task KeyedPipeline_StreamingGenericInteceptor_Success()
+    {
+        ServiceCollection serviceCollection = new ServiceCollection();
+
+        serviceCollection.AddCaseR(options =>
+        {
+            options.AddGenericStreamingInterceptor(typeof(OtherStreamIntecerptor<,>));
+        });
+
+        serviceCollection.AddKeyedCaseR("Keyed", options =>
+        {
+            options.AddGenericStreamingInterceptor(typeof(CallStreamIntecerptor<,>));
+        });
+
+        serviceCollection.AddCaseRInteractors(typeof(RegistrationTests));
+
+        CallAssertion callAssertion = new CallAssertion();
+        serviceCollection.AddSingleton(callAssertion);
+
+        ServiceProvider sp = serviceCollection.BuildServiceProvider(true);
+        await using AsyncServiceScope scope = sp.CreateAsyncScope();
+
+        IUseCase<PingPongStreamingInteractor> interactor = scope.ServiceProvider.GetRequiredService<IUseCase<PingPongStreamingInteractor>>();
+
+        IAsyncEnumerable<Pong> pongs = interactor.ExecuteStreaming<PingPongStreamingInteractor, Ping, Pong>(new Ping(), CancellationToken.None);
+
+        await foreach (Pong pong in pongs)
+        {
+            Assert.IsNotNull(pong);
+        }
+
+        callAssertion.AssertCall("OtherStreamIntecerptor");
+    }
+
+    [TestMethod]
     public async Task KeyedPipeline_KeyedInteceptor_Success()
     {
         ServiceCollection serviceCollection = new ServiceCollection();
@@ -72,7 +107,42 @@ public sealed class KeyedPipelinesTests
     }
 
     [TestMethod]
-    public async Task KeyedPipeline_Includerelation_Success()
+    public async Task KeyedPipeline_StreamingKeyedInteceptor_Success()
+    {
+        ServiceCollection serviceCollection = new ServiceCollection();
+
+        serviceCollection.AddCaseR(options =>
+        {
+            options.AddGenericStreamingInterceptor(typeof(OtherStreamIntecerptor<,>));
+        });
+
+        serviceCollection.AddKeyedCaseR("Keyed", options =>
+        {
+            options.AddGenericStreamingInterceptor(typeof(CallStreamIntecerptor<,>));
+        });
+
+        serviceCollection.AddCaseRInteractors(typeof(RegistrationTests));
+
+        CallAssertion callAssertion = new CallAssertion();
+        serviceCollection.AddSingleton(callAssertion);
+
+        ServiceProvider sp = serviceCollection.BuildServiceProvider(true);
+        await using AsyncServiceScope scope = sp.CreateAsyncScope();
+
+        IUseCase<PingPongStreamingInteractor> interactor = scope.ServiceProvider.GetRequiredKeyedService<IUseCase<PingPongStreamingInteractor>>("Keyed");
+
+        IAsyncEnumerable<Pong> pongs = interactor.ExecuteStreaming<PingPongStreamingInteractor, Ping, Pong>(new Ping(), CancellationToken.None);
+
+        await foreach (Pong pong in pongs)
+        {
+            Assert.IsNotNull(pong);
+        }
+
+        callAssertion.AssertCall("CallStreamIntecerptor");
+    }
+
+    [TestMethod]
+    public async Task KeyedPipeline_IncludeRelation_Success()
     {
         ServiceCollection serviceCollection = new ServiceCollection();
 
