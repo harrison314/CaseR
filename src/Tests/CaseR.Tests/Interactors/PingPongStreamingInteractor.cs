@@ -1,4 +1,6 @@
-﻿namespace CaseR.Tests.Interactors;
+﻿using System.Runtime.CompilerServices;
+
+namespace CaseR.Tests.Interactors;
 
 internal class PingPongStreamingInteractor : IUseCaseStreamInteractor<Ping, Pong>
 {
@@ -7,7 +9,7 @@ internal class PingPongStreamingInteractor : IUseCaseStreamInteractor<Ping, Pong
 
     }
 
-    public async IAsyncEnumerable<Pong> Execute(Ping request, CancellationToken cancellationToken)
+    public async IAsyncEnumerable<Pong> Execute(Ping request, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         await Task.Delay(0, cancellationToken);
         yield return new Pong();

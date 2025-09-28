@@ -1,4 +1,6 @@
-﻿namespace CaseR.Tests.Interactors;
+﻿using System.Runtime.CompilerServices;
+
+namespace CaseR.Tests.Interactors;
 
 [ExcludeFromRegistration]
 public class ExcludeUseCaseStreamInteractor : IUseCaseStreamInteractor<Unit, Unit>
@@ -8,7 +10,7 @@ public class ExcludeUseCaseStreamInteractor : IUseCaseStreamInteractor<Unit, Uni
 
     }
 
-    public async IAsyncEnumerable<Unit> Execute(Unit request, CancellationToken cancellationToken)
+    public async IAsyncEnumerable<Unit> Execute(Unit request, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         await Task.Delay(0, cancellationToken);
         yield return Unit.Value;

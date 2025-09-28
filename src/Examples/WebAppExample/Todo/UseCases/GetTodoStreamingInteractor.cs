@@ -1,4 +1,5 @@
 ﻿using CaseR;
+using System.Runtime.CompilerServices;
 
 namespace WebAppExample.Todo.UseCases;
 
@@ -8,7 +9,7 @@ public class GetTodoStreamingInteractor : IUseCaseStreamInteractor<GetTodoIntera
     {
     }
 
-    public async IAsyncEnumerable<Todo> Execute(GetTodoInteractorRequest request, CancellationToken cancellationToken)
+    public async IAsyncEnumerable<Todo> Execute(GetTodoInteractorRequest request, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         yield return new Todo(1, "Walk the dog");
         await Task.Delay(1000);

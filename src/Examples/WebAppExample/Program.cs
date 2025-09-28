@@ -39,7 +39,7 @@ namespace WebAppExample
                 return todo;
             });
 
-            todosApi.MapGet("/stream", async (IUseCase<GetTodoStreamingInteractor> getTodoInteractor,
+            todosApi.MapGet("/stream", (IUseCase<GetTodoStreamingInteractor> getTodoInteractor,
                 CancellationToken cancellationToken) =>
             {
                 //TODO: Switch to SSE in .NET 10
