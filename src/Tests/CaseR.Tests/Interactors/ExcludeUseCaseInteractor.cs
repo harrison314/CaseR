@@ -11,7 +11,7 @@ public class ExcludeUseCaseInteractor : IUseCaseInteractor<Unit, Unit>
 {
     public ExcludeUseCaseInteractor()
     {
-        
+
     }
 
     public Task<Unit> Execute(Unit request, CancellationToken cancellationToken)

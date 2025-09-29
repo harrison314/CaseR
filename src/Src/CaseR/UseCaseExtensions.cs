@@ -28,4 +28,24 @@ public static class UseCaseExtensions
         return await useCase.InternalExecute<TRequest, TResponse>(request, cancellationToken)
             .ConfigureAwait(false);
     }
+
+    /// <summary>
+    /// Execute the streaming use case interactor.
+    /// </summary>
+    /// <typeparam name="TInteractor">Use case interactor type.</typeparam>
+    /// <typeparam name="TRequest">Request type.</typeparam>
+    /// <typeparam name="TResponse">Response type.</typeparam>
+    /// <param name="useCase">Use case interactor.</param>
+    /// <param name="request">Request instance.</param>
+    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+    /// <returns>Returns async enumeable with result.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static IAsyncEnumerable<TResponse> ExecuteStreaming<TInteractor, TRequest, TResponse>(
+        this IUseCase<TInteractor> useCase,
+        TRequest request,
+        CancellationToken cancellationToken = default)
+        where TInteractor : IUseCaseStreamInteractor<TRequest, TResponse>
+    {
+        return useCase.InternalExecuteStreaming<TRequest, TResponse>(request, cancellationToken);
+    }
 }

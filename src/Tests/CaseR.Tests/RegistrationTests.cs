@@ -87,4 +87,49 @@ public sealed class RegistrationTests
 
         Assert.IsNotNull(pong);
     }
+
+    [TestMethod]
+    public async Task AddCaseR_RegisterStreamingAndUseWithReflection_Success()
+    {
+        ServiceCollection serviceCollection = new ServiceCollection();
+
+        serviceCollection.AddCaseR();
+        serviceCollection.AddCaseRInteractors(typeof(RegistrationTests));
+
+        ServiceProvider sp = serviceCollection.BuildServiceProvider(true);
+        await using AsyncServiceScope scope = sp.CreateAsyncScope();
+
+        IUseCase<PingPongStreamingInteractor> interactor = scope.ServiceProvider.GetRequiredService<IUseCase<PingPongStreamingInteractor>>();
+
+        IAsyncEnumerable<Pong> pong = interactor.ExecuteStreaming<PingPongStreamingInteractor, Ping, Pong>(new Ping(), CancellationToken.None);
+
+        Assert.IsNotNull(pong);
+
+        await foreach (Pong p in pong)
+        {
+            Assert.IsNotNull(p);
+        }
+    }
+
+    [TestMethod]
+    public async Task AddCaseR_RegisterStreamingAndUseWithGenerator_Success()
+    {
+        ServiceCollection serviceCollection = new ServiceCollection();
+
+        serviceCollection.AddCaseR();
+        serviceCollection.AddCaseRInteractors();
+
+        ServiceProvider sp = serviceCollection.BuildServiceProvider(true);
+        await using AsyncServiceScope scope = sp.CreateAsyncScope();
+
+        IUseCase<PingPongStreamingInteractor> interactor = scope.ServiceProvider.GetRequiredService<IUseCase<PingPongStreamingInteractor>>();
+
+        IAsyncEnumerable<Pong> pong = interactor.ExecuteStreaming<PingPongStreamingInteractor, Ping, Pong>(new Ping(), CancellationToken.None);
+
+        Assert.IsNotNull(pong);
+        await foreach (Pong p in pong)
+        {
+            Assert.IsNotNull(p);
+        }
+    }
 }

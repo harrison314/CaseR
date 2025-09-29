@@ -32,6 +32,7 @@ Therefore, I decided to create a library that uses the correct terminology for _
 * Interaction interceptor pipeline
 * Supports keyed pipelines
 * Supports domain events publisher
+* Streaming interactors using `IUseCaseStreamInteractor<,>`
 
 ## Get started
 
