@@ -11,6 +11,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>notifications;comands;queries;Use Case;Interactor;patterns;</PackageTags>
     <!--<EmbedUntrackedSources>true</EmbedUntrackedSources>-->
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
   </PropertyGroup>
 
   <ItemGroup>

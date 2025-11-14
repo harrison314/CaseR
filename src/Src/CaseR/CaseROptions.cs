@@ -29,7 +29,7 @@ public sealed class CaseROptions
             throw new ArgumentException("Interceptor type must be an open generic type.", nameof(interceptorType));
         }
 
-        System.Diagnostics.Debug.Assert(interceptorType.IsAssignableTo(typeof(IUseCaseInterceptor<,>)));
+        System.Diagnostics.Debug.Assert(interceptorType.IsAssignableToOpenGenericInterface(typeof(IUseCaseInterceptor<,>)));
 
         this.interceptors.Add(new ServiceDescriptor(typeof(IUseCaseInterceptor<,>), this.serviceKey, interceptorType, ServiceLifetime.Scoped));
     }
@@ -46,7 +46,7 @@ public sealed class CaseROptions
             throw new ArgumentException("Interceptor type must be an open generic type.", nameof(interceptorType));
         }
 
-        System.Diagnostics.Debug.Assert(interceptorType.IsAssignableTo(typeof(IUseCaseStreamInterceptor<,>)));
+        System.Diagnostics.Debug.Assert(interceptorType.IsAssignableToOpenGenericInterface(typeof(IUseCaseStreamInterceptor<,>)));
 
         this.interceptors.Add(new ServiceDescriptor(typeof(IUseCaseStreamInterceptor<,>), this.serviceKey, interceptorType, ServiceLifetime.Scoped));
     }
