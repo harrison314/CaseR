@@ -42,9 +42,15 @@ namespace WebAppExample
             todosApi.MapGet("/stream", (IUseCase<GetTodoStreamingInteractor> getTodoInteractor,
                 CancellationToken cancellationToken) =>
             {
-                //TODO: Switch to SSE in .NET 10
                 IAsyncEnumerable<WebAppExample.Todo.UseCases.Todo> todos = getTodoInteractor.ExecuteStreaming(new GetTodoInteractorRequest(), cancellationToken);
                 return Results.Ok(todos);
+            });
+
+            todosApi.MapGet("/streamSse", (IUseCase<GetTodoStreamingInteractor> getTodoInteractor,
+                CancellationToken cancellationToken) =>
+            {
+                IAsyncEnumerable<WebAppExample.Todo.UseCases.Todo> todos = getTodoInteractor.ExecuteStreaming(new GetTodoInteractorRequest(), cancellationToken);
+                return Results.ServerSentEvents(todos);
             });
 
             app.Run();
