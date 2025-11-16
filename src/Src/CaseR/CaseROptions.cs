@@ -1,5 +1,6 @@
 ﻿using CaseR;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -29,7 +30,14 @@ public sealed class CaseROptions
             throw new ArgumentException("Interceptor type must be an open generic type.", nameof(interceptorType));
         }
 
-        System.Diagnostics.Debug.Assert(interceptorType.IsAssignableToOpenGenericInterface(typeof(IUseCaseInterceptor<,>)));
+        if (RuntimeFeature.IsDynamicCodeSupported)
+        {
+#pragma warning disable IL2026
+#pragma warning disable IL3050
+            System.Diagnostics.Debug.Assert(interceptorType.IsAssignableToOpenGenericInterface(typeof(IUseCaseInterceptor<,>)));
+#pragma warning restore IL2026
+#pragma warning restore IL3050
+        }
 
         this.interceptors.Add(new ServiceDescriptor(typeof(IUseCaseInterceptor<,>), this.serviceKey, interceptorType, ServiceLifetime.Scoped));
     }
@@ -46,7 +54,14 @@ public sealed class CaseROptions
             throw new ArgumentException("Interceptor type must be an open generic type.", nameof(interceptorType));
         }
 
-        System.Diagnostics.Debug.Assert(interceptorType.IsAssignableToOpenGenericInterface(typeof(IUseCaseStreamInterceptor<,>)));
+        if (RuntimeFeature.IsDynamicCodeSupported)
+        {
+#pragma warning disable IL2026
+#pragma warning disable IL3050
+            System.Diagnostics.Debug.Assert(interceptorType.IsAssignableToOpenGenericInterface(typeof(IUseCaseStreamInterceptor<,>)));
+#pragma warning restore IL2026
+#pragma warning restore IL3050
+        }
 
         this.interceptors.Add(new ServiceDescriptor(typeof(IUseCaseStreamInterceptor<,>), this.serviceKey, interceptorType, ServiceLifetime.Scoped));
     }
