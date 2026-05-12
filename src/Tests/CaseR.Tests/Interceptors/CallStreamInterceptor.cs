@@ -2,11 +2,11 @@
 
 namespace CaseR.Tests.Interceptors;
 
-public class CallStreamIntecerptor<TRequest, TResponse> : IUseCaseStreamInterceptor<TRequest, TResponse>
+public class CallStreamInterceptor<TRequest, TResponse> : IUseCaseStreamInterceptor<TRequest, TResponse>
 {
     private readonly CallAssertion assertion;
 
-    public CallStreamIntecerptor(CallAssertion assertion)
+    public CallStreamInterceptor(CallAssertion assertion)
     {
         this.assertion = assertion;
     }
@@ -14,7 +14,7 @@ public class CallStreamIntecerptor<TRequest, TResponse> : IUseCaseStreamIntercep
     public async IAsyncEnumerable<TResponse> InterceptExecution(IUseCaseStreamInteractor<TRequest, TResponse> useCaseInteractor, TRequest request, UseCaseStreamPerformDelegate<TRequest, TResponse> next, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         IAsyncEnumerable<TResponse> response = next(request);
-        this.assertion.AddCall("CallStreamIntecerptor");
+        this.assertion.AddCall("CallStreamInterceptor");
 
         await foreach (TResponse item in response)
         {

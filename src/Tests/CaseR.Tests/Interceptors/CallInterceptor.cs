@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CaseR.Tests.Interceptors;
 
-public class CallIntecerptor<TRequest, TResponse> : IUseCaseInterceptor<TRequest, TResponse>
+public class CallInterceptor<TRequest, TResponse> : IUseCaseInterceptor<TRequest, TResponse>
 {
     private readonly CallAssertion assertion;
 
-    public CallIntecerptor(CallAssertion assertion)
+    public CallInterceptor(CallAssertion assertion)
     {
         this.assertion = assertion;
     }
@@ -18,7 +18,7 @@ public class CallIntecerptor<TRequest, TResponse> : IUseCaseInterceptor<TRequest
     public async Task<TResponse> InterceptExecution(IUseCaseInteractor<TRequest, TResponse> useCaseInteractor, TRequest request, UseCasePerformDelegate<TRequest, TResponse> next, CancellationToken cancellationToken)
     {
         TResponse response = await next(request);
-        this.assertion.AddCall("CallIntecerptor");
+        this.assertion.AddCall("CallInterceptor");
 
         return response;
     }

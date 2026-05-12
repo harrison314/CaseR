@@ -60,7 +60,7 @@ public sealed class PipelinesTests
 
         serviceCollection.AddCaseR(options =>
         {
-            options.AddGenericInterceptor(typeof(CallIntecerptor<,>));
+            options.AddGenericInterceptor(typeof(CallInterceptor<,>));
         });
 
         serviceCollection.AddCaseRInteractors(typeof(RegistrationTests));
@@ -77,7 +77,7 @@ public sealed class PipelinesTests
 
         Assert.IsNotNull(pong);
 
-        callAssertion.AssertCall("CallIntecerptor");
+        callAssertion.AssertCall("CallInterceptor");
     }
 
     [TestMethod]
@@ -87,7 +87,7 @@ public sealed class PipelinesTests
 
         serviceCollection.AddCaseR(options =>
         {
-            options.AddInterceptor<Ping, Pong, ConcereteInterceptor>();
+            options.AddInterceptor<Ping, Pong, ConcreteInterceptor>();
         });
 
         serviceCollection.AddCaseRInteractors(typeof(RegistrationTests));
@@ -104,7 +104,7 @@ public sealed class PipelinesTests
 
         Assert.IsNotNull(pong);
 
-        callAssertion.AssertCall("ConcereteInterceptor");
+        callAssertion.AssertCall("ConcreteInterceptor");
     }
 
     [TestMethod]
@@ -114,8 +114,8 @@ public sealed class PipelinesTests
 
         serviceCollection.AddCaseR(options =>
         {
-            options.AddGenericInterceptor(typeof(CallIntecerptor<,>));
-            options.AddInterceptor<Ping, Pong, ConcereteInterceptor>();
+            options.AddGenericInterceptor(typeof(CallInterceptor<,>));
+            options.AddInterceptor<Ping, Pong, ConcreteInterceptor>();
         });
 
         serviceCollection.AddCaseRInteractors(typeof(RegistrationTests));
@@ -132,7 +132,7 @@ public sealed class PipelinesTests
 
         Assert.IsNotNull(pong);
 
-        callAssertion.AssertCall("ConcereteInterceptor");
-        callAssertion.AssertCall("CallIntecerptor");
+        callAssertion.AssertCall("ConcreteInterceptor");
+        callAssertion.AssertCall("CallInterceptor");
     }
 }

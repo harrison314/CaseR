@@ -14,12 +14,12 @@ public sealed class KeyedPipelinesTests
 
         serviceCollection.AddCaseR(options =>
         {
-            options.AddGenericInterceptor(typeof(OtherIntecerptor<,>));
+            options.AddGenericInterceptor(typeof(OtherInterceptor<,>));
         });
 
         serviceCollection.AddKeyedCaseR("Keyed", options =>
         {
-            options.AddGenericInterceptor(typeof(CallIntecerptor<,>));
+            options.AddGenericInterceptor(typeof(CallInterceptor<,>));
         });
 
         serviceCollection.AddCaseRInteractors(typeof(RegistrationTests));
@@ -36,7 +36,7 @@ public sealed class KeyedPipelinesTests
 
         Assert.IsNotNull(pong);
 
-        callAssertion.AssertCall("OtherIntecerptor");
+        callAssertion.AssertCall("OtherInterceptor");
     }
 
     [TestMethod]
@@ -46,12 +46,12 @@ public sealed class KeyedPipelinesTests
 
         serviceCollection.AddCaseR(options =>
         {
-            options.AddGenericStreamingInterceptor(typeof(OtherStreamIntecerptor<,>));
+            options.AddGenericStreamingInterceptor(typeof(OtherStreamInterceptor<,>));
         });
 
         serviceCollection.AddKeyedCaseR("Keyed", options =>
         {
-            options.AddGenericStreamingInterceptor(typeof(CallStreamIntecerptor<,>));
+            options.AddGenericStreamingInterceptor(typeof(CallStreamInterceptor<,>));
         });
 
         serviceCollection.AddCaseRInteractors(typeof(RegistrationTests));
@@ -71,7 +71,7 @@ public sealed class KeyedPipelinesTests
             Assert.IsNotNull(pong);
         }
 
-        callAssertion.AssertCall("OtherStreamIntecerptor");
+        callAssertion.AssertCall("OtherStreamInterceptor");
     }
 
     [TestMethod]
@@ -81,12 +81,12 @@ public sealed class KeyedPipelinesTests
 
         serviceCollection.AddCaseR(options =>
         {
-            options.AddGenericInterceptor(typeof(OtherIntecerptor<,>));
+            options.AddGenericInterceptor(typeof(OtherInterceptor<,>));
         });
 
         serviceCollection.AddKeyedCaseR("Keyed", options =>
         {
-            options.AddGenericInterceptor(typeof(CallIntecerptor<,>));
+            options.AddGenericInterceptor(typeof(CallInterceptor<,>));
         });
 
         serviceCollection.AddCaseRInteractors(typeof(RegistrationTests));
@@ -103,7 +103,7 @@ public sealed class KeyedPipelinesTests
 
         Assert.IsNotNull(pong);
 
-        callAssertion.AssertCall("CallIntecerptor");
+        callAssertion.AssertCall("CallInterceptor");
     }
 
     [TestMethod]
@@ -113,12 +113,12 @@ public sealed class KeyedPipelinesTests
 
         serviceCollection.AddCaseR(options =>
         {
-            options.AddGenericStreamingInterceptor(typeof(OtherStreamIntecerptor<,>));
+            options.AddGenericStreamingInterceptor(typeof(OtherStreamInterceptor<,>));
         });
 
         serviceCollection.AddKeyedCaseR("Keyed", options =>
         {
-            options.AddGenericStreamingInterceptor(typeof(CallStreamIntecerptor<,>));
+            options.AddGenericStreamingInterceptor(typeof(CallStreamInterceptor<,>));
         });
 
         serviceCollection.AddCaseRInteractors(typeof(RegistrationTests));
@@ -138,7 +138,7 @@ public sealed class KeyedPipelinesTests
             Assert.IsNotNull(pong);
         }
 
-        callAssertion.AssertCall("CallStreamIntecerptor");
+        callAssertion.AssertCall("CallStreamInterceptor");
     }
 
     [TestMethod]
@@ -148,12 +148,12 @@ public sealed class KeyedPipelinesTests
 
         serviceCollection.AddCaseR(options =>
         {
-            options.AddGenericInterceptor(typeof(OtherIntecerptor<,>));
+            options.AddGenericInterceptor(typeof(OtherInterceptor<,>));
         });
 
         serviceCollection.AddKeyedCaseR(UseCaseRelation.Include, options =>
         {
-            options.AddGenericInterceptor(typeof(CallIntecerptor<,>));
+            options.AddGenericInterceptor(typeof(CallInterceptor<,>));
         });
 
         serviceCollection.AddCaseRInteractors();

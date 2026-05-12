@@ -2,11 +2,11 @@
 
 namespace CaseR.Tests.Interceptors;
 
-public class ConcereteInterceptor : IUseCaseInterceptor<Ping, Pong>
+public class ConcreteInterceptor : IUseCaseInterceptor<Ping, Pong>
 {
     private readonly CallAssertion assertion;
 
-    public ConcereteInterceptor(CallAssertion assertion)
+    public ConcreteInterceptor(CallAssertion assertion)
     {
         this.assertion = assertion;
     }
@@ -14,7 +14,7 @@ public class ConcereteInterceptor : IUseCaseInterceptor<Ping, Pong>
     public async Task<Pong> InterceptExecution(IUseCaseInteractor<Ping, Pong> useCaseInteractor, Ping request, UseCasePerformDelegate<Ping, Pong> next, CancellationToken cancellationToken)
     {
         Pong response = await next(request);
-        this.assertion.AddCall("ConcereteInterceptor");
+        this.assertion.AddCall("ConcreteInterceptor");
         return response;
     }
 }

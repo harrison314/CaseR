@@ -32,25 +32,25 @@ public readonly struct Unit : IEquatable<Unit>
     {
     }
 
-    /// <inheredoc />
+    /// <inheritdoc />
     public bool Equals(Unit other)
     {
         return true;
     }
 
-    /// <inheredoc />
+    /// <inheritdoc />
     public override bool Equals([NotNullWhen(true)] object? obj)
     {
         return obj is Unit;
     }
 
-    /// <inheredoc />
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return 458;
     }
 
-    /// <inheredoc />
+    /// <inheritdoc />
     public override string ToString()
     {
         return "()";
