@@ -24,14 +24,21 @@ internal class UseCaseImplDefinitions
         get;
     }
 
+    public string? CathegoryName
+    {
+        get;
+    }
+
     public UseCaseImplDefinitions(ProcessableClassDefinition classDefinition,
         UseCaseInteractorType useCaseInteractorType,
        ITypeSymbol tRequestType,
-       ITypeSymbol tResultType)
+       ITypeSymbol tResultType,
+       string? cathegoryName)
     {
         this.ClassDefinition = classDefinition;
         this.UseCaseInteractorType = useCaseInteractorType;
         this.TRequestType = tRequestType;
         this.TResultType = tResultType;
+        this.CathegoryName = cathegoryName;
     }
 }

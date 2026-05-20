@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CaseR.SourceGenerator;
@@ -36,7 +37,7 @@ internal static class CaseRRegistrationRenderer
 
                 """");
 
-        foreach (UseCaseImplDefinitions def in useCaseDefinitions)
+        foreach (UseCaseImplDefinitions def in useCaseDefinitions.Where(t => t.CathegoryName is null))
         {
             string className = def.ClassDefinition.Symbol.ToString();
             sb.Append($$$""""
@@ -46,12 +47,12 @@ internal static class CaseRRegistrationRenderer
         }
 
         sb.Append($$$""""
-                
+
                        // Domain events registrations
 
                 """");
 
-        foreach (DomainHandlerImplDefinitions def in domainEvenest)
+        foreach (DomainHandlerImplDefinitions def in domainEvenest.Where(t => t.CathegoryName is null))
         {
             if (def.TDomainEvent == null)
             {
@@ -73,6 +74,88 @@ internal static class CaseRRegistrationRenderer
 
         sb.Append($$$""""
                     }
+                """");
+
+        sb.Append($$$""""
+
+                    /// <summary>
+                    /// Adds all use cases interactors and domain event handler with this assembly.
+                    /// </summary>
+                    /// <param name="services">The <see cref="IServiceCollection"/>.</param>
+                    public static void AddCaseRInteractors(this IServiceCollection services, string cathegoryName)
+                    {
+                        System.ArgumentNullException.ThrowIfNull(services);
+                        System.ArgumentNullException.ThrowIfNullOrEmpty(cathegoryName);
+
+                        switch (cathegoryName)
+                        {
+                """");
+
+        foreach (IGrouping<string?, UseCaseImplDefinitions>? defGroup in useCaseDefinitions.Where(t => t.CathegoryName is not null)
+            .GroupBy(t=>t.CathegoryName))
+        {
+            string escapedCathegoryName = (defGroup.Key ?? string.Empty).Replace("\\", "\\\\").Replace("\"", "\\\"");
+            sb.Append($$$""""
+
+                            case "{{{escapedCathegoryName}}}":
+
+                """");
+
+            foreach (UseCaseImplDefinitions def in defGroup)
+            {
+                string className = def.ClassDefinition.Symbol.ToString();
+                sb.Append($$$""""
+                                services.Add(new ServiceDescriptor(typeof({{{className}}}), typeof({{{className}}}), ServiceLifetime.Scoped));
+
+                """");
+            }
+
+            sb.Append($$$""""
+
+                                // Domain events
+
+                """");
+
+            foreach (DomainHandlerImplDefinitions def in domainEvenest.Where(t => t.CathegoryName == defGroup.Key))
+            {
+                if (def.TDomainEvent == null)
+                {
+                    string className = def.ClassDefinition.Symbol.ConstructUnboundGenericType().ToString();
+                    sb.Append($$$""""
+                                services.Add(new ServiceDescriptor(typeof(global::CaseR.IDomainEventHandler<>), typeof({{{className}}}), ServiceLifetime.Scoped));
+
+                """");
+                }
+                else
+                {
+                    string className = def.ClassDefinition.Symbol.ToString();
+                    sb.Append($$$""""
+                                services.Add(new ServiceDescriptor(typeof(global::CaseR.IDomainEventHandler<{{{def.TDomainEvent}}}>), typeof({{{className}}}), ServiceLifetime.Scoped));
+
+                """");
+                }
+            }
+
+            sb.Append($$$""""
+
+                            break;
+
+                """");
+        }
+
+        sb.Append($$$""""
+
+                            default:
+                               throw new System.ArgumentException($"Cathegory {cathegoryName} is not obtrained.");
+                        }
+
+                """");
+
+        sb.Append($$$""""
+                    }
+                """");
+
+        sb.Append($$$""""
                 }
 
                 """");

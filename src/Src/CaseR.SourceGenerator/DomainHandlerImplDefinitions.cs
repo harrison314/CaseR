@@ -14,10 +14,17 @@ internal class DomainHandlerImplDefinitions
         get;
     }
 
+    public string? CathegoryName
+    {
+        get;
+    }
+
     public DomainHandlerImplDefinitions(ProcessableClassDefinition classDefinition,
-       ITypeSymbol? tDomainEvent)
+       ITypeSymbol? tDomainEvent,
+       string? cathegoryName)
     {
         this.ClassDefinition = classDefinition;
         this.TDomainEvent = tDomainEvent;
+        this.CathegoryName = cathegoryName;
     }
 }

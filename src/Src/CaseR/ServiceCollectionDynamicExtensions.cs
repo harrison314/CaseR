@@ -37,7 +37,8 @@ public static class ServiceCollectionDynamicExtensions
             .Where(x => x.Interface.IsGenericType
                         && (x.Interface.GetGenericTypeDefinition() == useCaseInteactorType
                              || x.Interface.GetGenericTypeDefinition() == useCaseStreamInteactorType)
-                        && !Attribute.IsDefined(x.Type, typeof(ExcludeFromRegistrationAttribute)))
+                        && !Attribute.IsDefined(x.Type, typeof(ExcludeFromRegistrationAttribute))
+                        && !Attribute.IsDefined(x.Type, typeof(RegistrationCathegoryAttribute)))
             .ToList();
 
         foreach (var item in typesToRegister)
@@ -76,6 +77,70 @@ public static class ServiceCollectionDynamicExtensions
     }
 
     /// <summary>
+    /// Dynamically registers use case interactors with specified cathegory and domain event handlers from the specified assembly.
+    /// </summary>
+    /// <param name="services">IoC services.</param>
+    /// <param name="searchAssembly">Assembly when CaseR search interactors and domain event handlers.</param>
+    /// <param name="cathegoryName">Name of interactor cathegory.</param>
+    [RequiresDynamicCode("This code require dynamic assembly scanning.")]
+    [RequiresUnreferencedCode("This code require dynamic assembly scanning.")]
+    public static void AddCaseRInteractors(this IServiceCollection services, Assembly searchAssembly, string cathegoryName)
+    {
+        ArgumentNullException.ThrowIfNull(searchAssembly);
+        ArgumentNullException.ThrowIfNullOrEmpty(cathegoryName);
+
+        Type useCaseInteactorType = typeof(IUseCaseInteractor<,>);
+        Type useCaseStreamInteactorType = typeof(IUseCaseStreamInteractor<,>);
+        Type eventHandlerType = typeof(IDomainEventHandler<>);
+
+        var typesToRegister = searchAssembly
+            .GetTypes()
+            .Where(t => t.IsClass && !t.IsAbstract)
+            .SelectMany(t => t.GetInterfaces(), (t, i) => new { Type = t, Interface = i })
+            .Where(x => x.Interface.IsGenericType
+                        && (x.Interface.GetGenericTypeDefinition() == useCaseInteactorType
+                             || x.Interface.GetGenericTypeDefinition() == useCaseStreamInteactorType)
+                        && !Attribute.IsDefined(x.Type, typeof(ExcludeFromRegistrationAttribute)))
+            .Where(t => t.Type.GetCustomAttributes<RegistrationCathegoryAttribute>().Any(a => a.CathegoryName == cathegoryName))
+            .ToList();
+
+        foreach (var item in typesToRegister)
+        {
+            //TODO: Process generic types not only continue
+            if (item.Type.IsGenericTypeDefinition) continue;
+
+            services.AddScoped(item.Type);
+        }
+
+        var typesToRegisterEventeHandlers = searchAssembly
+            .GetTypes()
+            .Where(t => t.IsClass && !t.IsAbstract)
+            .SelectMany(t => t.GetInterfaces(), (t, i) => new { Type = t, Interface = i })
+            .Where(x => x.Interface.IsGenericType
+                        && x.Interface.GetGenericTypeDefinition() == eventHandlerType
+                        && !Attribute.IsDefined(x.Type, typeof(ExcludeFromRegistrationAttribute)))
+            .Where(t => t.Type.GetCustomAttributes<RegistrationCathegoryAttribute>().Any(a => a.CathegoryName == cathegoryName))
+            .ToList();
+
+        foreach (var item in typesToRegisterEventeHandlers)
+        {
+            if (item.Type.IsGenericTypeDefinition)
+            {
+                if (item.Type.GetGenericArguments().Length != 1)
+                {
+                    continue;
+                }
+
+                services.AddScoped(typeof(IDomainEventHandler<>), item.Type);
+            }
+            else
+            {
+                services.AddScoped(item.Interface, item.Type);
+            }
+        }
+    }
+
+    /// <summary>
     /// Dynamically registers all use case interactors and domain event handlers from the specified assembly when contains <paramref name="assemblyType"/>.
     /// </summary>
     /// <param name="services">IoC services.</param>
@@ -87,5 +152,21 @@ public static class ServiceCollectionDynamicExtensions
         ArgumentNullException.ThrowIfNull(assemblyType);
 
         services.AddCaseRInteractors(assemblyType.Assembly);
+    }
+
+    /// <summary>
+    /// Dynamically registers use case interactors with specified cathegory and domain event handlers from the specified assembly.
+    /// </summary>
+    /// <param name="services">IoC services.</param>
+    /// <param name="assemblyType">Type from assembly when CaseR search interactors and domain event handlers.</param>
+    /// <param name="cathegoryName">Name of interactor cathegory.</param>
+    [RequiresDynamicCode("This code require dynamic assembly scanning.")]
+    [RequiresUnreferencedCode("This code require dynamic assembly scanning.")]
+    public static void AddCaseRInteractors(this IServiceCollection services, Type assemblyType, string cathegoryName)
+    {
+        ArgumentNullException.ThrowIfNull(assemblyType);
+        ArgumentNullException.ThrowIfNullOrEmpty(cathegoryName);
+
+        services.AddCaseRInteractors(assemblyType.Assembly, cathegoryName);
     }
 }

@@ -70,10 +70,14 @@ public class CaseRGenerator : IIncrementalGenerator
                                 continue;
                             }
 
-                            useCaseDefinitions.Add(new UseCaseImplDefinitions(new ProcessableClassDefinition(symbol),
-                                interactorType,
-                                usedInterface.TypeArguments[0],
-                                usedInterface.TypeArguments[1]));
+                            foreach (string? cathegoryName in this.GetInteractorCathegoryNames(symbol))
+                            {
+                                useCaseDefinitions.Add(new UseCaseImplDefinitions(new ProcessableClassDefinition(symbol),
+                                    interactorType,
+                                    usedInterface.TypeArguments[0],
+                                    usedInterface.TypeArguments[1],
+                                    cathegoryName));
+                            }
                         }
                     }
 
@@ -86,13 +90,21 @@ public class CaseRGenerator : IIncrementalGenerator
 
                         if (symbol.IsGenericType)
                         {
-                            domainEvenets.Add(new DomainHandlerImplDefinitions(new ProcessableClassDefinition(symbol),
-                                null));
+                            foreach (string? cathegoryName in this.GetInteractorCathegoryNames(symbol))
+                            {
+                                domainEvenets.Add(new DomainHandlerImplDefinitions(new ProcessableClassDefinition(symbol),
+                                null,
+                                cathegoryName));
+                            }
                         }
                         else
                         {
-                            domainEvenets.Add(new DomainHandlerImplDefinitions(new ProcessableClassDefinition(symbol),
-                                usedInterface.TypeArguments[0]));
+                            foreach (string? cathegoryName in this.GetInteractorCathegoryNames(symbol))
+                            {
+                                domainEvenets.Add(new DomainHandlerImplDefinitions(new ProcessableClassDefinition(symbol),
+                                usedInterface.TypeArguments[0],
+                                cathegoryName));
+                            }
                         }
                     }
                 }
@@ -131,5 +143,28 @@ public class CaseRGenerator : IIncrementalGenerator
     {
         ImmutableArray<AttributeData> attributeList = typeSymbol.GetAttributes();
         return attributeList.Any(t => t.AttributeClass?.ToDisplayString() == "CaseR.ExcludeFromRegistrationAttribute");
+    }
+
+    private IEnumerable<string?> GetInteractorCathegoryNames(INamedTypeSymbol typeSymbol)
+    {
+        ImmutableArray<AttributeData> attributeList = typeSymbol.GetAttributes();
+        bool containsAny = false;
+        foreach (AttributeData cathegoryAttribute in attributeList.Where(t => t.AttributeClass?.ToDisplayString() == "CaseR.RegistrationCathegoryAttribute"))
+        {
+            if (cathegoryAttribute != null && cathegoryAttribute.ConstructorArguments.Length > 0)
+            {
+                TypedConstant cathegoryNameConstant = cathegoryAttribute.ConstructorArguments[0];
+                if (cathegoryNameConstant.Value is string cathegoryName)
+                {
+                    containsAny = true;
+                    yield return cathegoryName;
+                }
+            }
+        }
+
+        if (!containsAny)
+        {
+            yield return null;
+        }
     }
 }
