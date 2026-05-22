@@ -235,7 +235,7 @@ public sealed class RegistrationTests
         ServiceCollection serviceCollection = new ServiceCollection();
 
         serviceCollection.AddCaseR();
-        serviceCollection.AddCaseRInteractors();
+        serviceCollection.AddCaseRInteractors("Api");
 
         ServiceProvider sp = serviceCollection.BuildServiceProvider(true);
         await using AsyncServiceScope scope = sp.CreateAsyncScope();

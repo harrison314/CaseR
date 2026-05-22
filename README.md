@@ -213,6 +213,7 @@ var todosApi = app.MapGroup("/todos");
 
 ## Notes
 - Using attribute `ExcludeFromRegistration` it is possible to suppress automatic class registration into DI using `.AddCaseRInteractors(...)` methods.
+- Using the `RegistrationCategory` attribute, you can decide how interactors and event handlers will be registered. Using the attribute will remove them from the default registration and only use them with registrations with the action category name `builder.Services.AddCaseRInteractors("CathegoryName");`.
 
 ## CaseR 
 [![NuGet Status](http://img.shields.io/nuget/v/CaseR.svg?style=flat)](https://www.nuget.org/packages/CaseR/)
